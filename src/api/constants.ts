@@ -1,0 +1,1 @@
+export const baseUrl = 'http://tcarzverey.ru:8084/api/v1';
