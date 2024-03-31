@@ -94,7 +94,6 @@ const AddDatasetPage = () => {
     const [hasChanges, setHasChanges] = useState<boolean>(false);
 
     const onBackOperation = () => {
-        console.log(hasChanges)
         if (hasChanges) {
             alert('Are you sure?')
             navigate('/datasets')

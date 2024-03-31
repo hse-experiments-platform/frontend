@@ -5,3 +5,4 @@ export * from './CustomSidebar';
 export * from './PageTitle';
 export * from './CustomTable';
 export * from './ShallowTable';
+export * from './PageControl';

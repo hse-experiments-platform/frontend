@@ -11,5 +11,5 @@ export interface GetTokenResponse {
 
 
 export const getToken = async (data: GetTokenBody) => {
-    return await api<GetTokenResponse>('POST', 'http://tcarzverey.ru:8082/api/v1/login/google', null, data);
+    return await api<GetTokenResponse>('POST', 'http://tcarzverey.ru:8082/api/v1/login/google', data);
 }

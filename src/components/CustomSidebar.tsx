@@ -37,25 +37,19 @@ export const CustomSidebar = () => {
                 Datasets
               </MenuItem>
               <MenuItem
-                component={<Link to="/models" />}
+                component={<Link to="/trained-models" />}
                 icon={<LuBrainCog size={"30px"}/>}
                 active={true}
               >
                 Models
               </MenuItem>
-              <MenuItem
-                component={<Link to="/experiments" />}
-                icon={<TbGraph size={"30px"}/>}
-              >
-                Experiments
-              </MenuItem>
+
               <MenuItem
                 component={<div onClick={() => setIsCollapsed(!isCollapsed)}/>}
                 icon={isCollapsed ? <FaArrowRightLong size={"30px"}/> : <FaArrowLeftLong size={"30px"}/>}
               >
                 Close menu
               </MenuItem>
-              
               <MenuItem
                 component={<Link to="/logout" />}
                 icon={<TbLogout size={"30px"}/>}

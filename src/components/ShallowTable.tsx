@@ -1,31 +1,30 @@
 import styled from 'styled-components';
+import ScrollContainer from './scroll/ScrollElements';
 
 interface ShallowTableProps {
     columnNames: string[];
     data: any[];
-    needsStringify: boolean;
 }
 
-const Container = styled.div`
-    margin: 25px 0;
+export const TableContainer = styled.div`
     background-color: #FDFDFD;
     width: 100%;
-    padding: 15px;
-    height: calc(100% - 110px);
+    height: 100%;
 `;
 
-const Row = styled.div<{division: string}>`
+export const TableRow = styled.div<{count: number, extra: number}>`
     display: grid;
-    grid-template-columns: ${props => props.division};
+    grid-template-columns: ${props => `repeat(${props.count - props.extra}, minmax(90px, 1fr)) ${props.extra === 1 ? '50px' : ''}`};
 `;
 
-const Cell = styled.div<{isLeft: boolean}>`
+export const TableCell = styled.div<{isLeft: boolean}>`
     border-bottom: 1px solid black;
     border-left: ${props => props.isLeft ? 0 : '1px solid black'};
     text-align: center;
+    padding: 5px;
 `
 
-const HeaderCell = styled(Cell)`
+export const TableHeaderCell = styled(TableCell)`
     border-bottom: 2px solid black;
 
     font-weight: 700;
@@ -33,43 +32,33 @@ const HeaderCell = styled(Cell)`
     color: #03256C;
 `
 
-const DataRow = styled.div<{division: string}>`
-    display: grid;
-    grid-template-columns: ${props => props.division};
-    border-bottom: 1px solid #03256C;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    font-family: 'Lato';
-    cursor: pointer;
-`;
+const Value = styled.p`
+    overflow: hidden;
+    text-overflow: ellipsis;
+`
 
-
-
-export const ShallowTable = ({columnNames, data, needsStringify}: ShallowTableProps) => {
-    const subdivision = '1fr ';
-    const division: string = subdivision.repeat(columnNames.length);
-    console.log(division)
-
+export const ShallowTable = ({columnNames, data }: ShallowTableProps) => {
 
     return (
-        <Container>
-            <Row division={division}>
-                {columnNames.map((name, i) =>
-                    <HeaderCell isLeft={i === 0}>
-                        {name}
-                    </HeaderCell>
-                )}
-            </Row>
-            {data.map(r => 
-                <Row division={division}>
-                    {r.map((v: any, i: number) =>
-                        <Cell isLeft={i === 0}>
-                            {needsStringify ? JSON.stringify(v) : v}
-                        </Cell>
+        <TableContainer>
+            <ScrollContainer>
+                <TableRow count={columnNames.length} extra={0}>
+                    {columnNames.map((name, i) =>
+                        <TableHeaderCell isLeft={i === 0}>
+                            <Value>{name}</Value>
+                        </TableHeaderCell>
                     )}
-                </Row>
-            )}
-        </Container>
+                </TableRow>
+                {data.map(r => 
+                    <TableRow count={columnNames.length} extra={0}>
+                        {r.map((v: any, i: number) =>
+                            <TableCell isLeft={i === 0}>
+                               <Value>{v}</Value>
+                            </TableCell>
+                        )}
+                    </TableRow>
+                )}
+           </ScrollContainer>
+        </TableContainer>
     )
 }

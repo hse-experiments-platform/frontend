@@ -1,4 +1,5 @@
-export const api = async <T>(methodType: string, url: string, token: string | null, data: any): Promise<T> => {
+export const api = async <T>(methodType: string, url: string, data: any): Promise<T> => {
+    const token = localStorage.getItem('accessToken');
     const response = await fetch(url, {
         method: methodType,
         headers: {

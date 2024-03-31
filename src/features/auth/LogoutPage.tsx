@@ -6,7 +6,8 @@ export const LogoutPage = () => {
     const { setIsAuthorized } = useContext(AuthContext) as AuthContextType;
 
     useEffect(() => {
-        setIsAuthorized(false) 
+        setIsAuthorized(false);
+        localStorage.removeItem('accessToken');
     }, []);
 
     return (

@@ -1,24 +1,26 @@
 import styled from "styled-components";
+import TableRow from "./TableRow";
 
 interface CustomTableProps {
     columnNames: string[];
-    data: any;
+    rows: TableRow[];
     division: string;
-    onClick: (id: number) => void;
+    onClick: (id: string) => void;
 }
 
 const Container = styled.div`
-    margin: 25px 0;
+    margin: 25px 0 0 0;
     border: 1px solid #676767;
     border-radius: 10px;
     background-color: #FDFDFD;
     width: 100%;
     padding: 15px;
-    height: calc(100% - 110px);
+    height: calc(100% - 130px);
 `;
 
 const HeaderDataRow = styled.div<{division: string}>`
     display: grid;
+    grid-column-gap: 10px;
     grid-template-columns: ${props => props.division};
     margin-bottom: 20px;
 
@@ -29,6 +31,7 @@ const HeaderDataRow = styled.div<{division: string}>`
 
 const DataRow = styled.div<{division: string}>`
     display: grid;
+    grid-column-gap: 10px;
     grid-template-columns: ${props => props.division};
     border-bottom: 1px solid #03256C;
     border-radius: 5px;
@@ -42,16 +45,8 @@ const DataCell = styled.div`
 
 `;
 
-const PageControlContainer = styled.div`
-    width: 100px;
-    height: 25px;
-    position: relative;
-    right: 10px;
-    background-color: black;
-`
 
-
-export const CustomTable = ({columnNames, data, division, onClick}: CustomTableProps) => {
+export const CustomTable = ({columnNames, rows, division, onClick}: CustomTableProps) => {
     
     return (
         <Container>
@@ -61,15 +56,13 @@ export const CustomTable = ({columnNames, data, division, onClick}: CustomTableP
                 ))}
             </HeaderDataRow>
 
-            {data.map((item: any) => (
-                <DataRow division={division}>
-                    {columnNames.map(column => (
-                        <DataCell onClick={() => onClick(item.id)}>{item[column.toLowerCase()]}</DataCell>
+            {rows.map(row => (
+                <DataRow division={division} key={row.id}>
+                    {row.values.map((value, index) => (
+                        <DataCell onClick={() => onClick(row.id)} key={index}>{value}</DataCell>
                     ))}
                 </DataRow>
             ))}
-            
-            <PageControlContainer/>
         </Container>
     )
 }

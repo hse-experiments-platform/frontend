@@ -6,6 +6,7 @@ import Logo from '../../components/Logo';
 import { useNavigate } from "react-router";
 import { AuthContext, AuthContextType } from "../../contexts/AuthContext";
 import { getToken } from "../../api/auth";
+import checkAuth from "../../utils/checkAuth";
 
 const LogoContainer = styled.div`
     height: 70px;
@@ -69,11 +70,15 @@ const AuthText = styled.h3`
 
 export const AuthPage = () => {
     const [googleToken, setGoogleToken] = useState<string | null>(null);
-    const { isAuthorized, setIsAuthorized, setInternalToken } = useContext(AuthContext) as AuthContextType;
+    const { isAuthorized, setIsAuthorized } = useContext(AuthContext) as AuthContextType;
     const navigate = useNavigate();
 
     useEffect(() => {
         if (isAuthorized) {
+            navigate("/datasets");
+        }
+        if (checkAuth()) {
+            setIsAuthorized(true);
             navigate("/datasets");
         }
     }, [navigate, isAuthorized])
@@ -84,15 +89,16 @@ export const AuthPage = () => {
 
         const requestToken = async () => {
             const response = await getToken({ google_oauth_token: googleToken});
+            
             if (response) {
                 setIsAuthorized(true);
-                setInternalToken(response.token);
-                console.log(response.token)
+                localStorage.setItem('accessToken', response.token);
+                console.log(response.token);
             }
         }
     
         requestToken();
-    }, [googleToken, setIsAuthorized, setInternalToken]);
+    }, [googleToken, setIsAuthorized]);
 
     const login = useGoogleLogin({
         onSuccess: tokenResponse => setGoogleToken(tokenResponse.access_token),

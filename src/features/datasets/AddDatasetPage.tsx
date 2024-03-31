@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import ProtectedPage from "../../components/pages/ProtectedPage";
-import { AuthContext, AuthContextType, RequestContext, RequestContextType } from "../../contexts";
+import { RequestContext, RequestContextType } from "../../contexts";
 import DatasetRepository from "../../api/datasets/DatasetRepository";
 
 const StyledTitle = styled.h2`
@@ -50,7 +50,6 @@ const ActionsContainer = styled.div`
     display: flex;
     justify-content: right;
     gap: 10px;
-    
 `
 
 const OvalButton = styled.button`
@@ -70,10 +69,21 @@ const ConfirmButton = styled(OvalButton)`
 `
 
 export const AddDatasetPage = () => {
-    const { internalToken } = useContext(AuthContext) as AuthContextType;
+    const [name, setName] = useState<string>('');
+    const [link, setLink] = useState<string>('');
     const { setError, setIsLoading } = useContext(RequestContext) as RequestContextType;
     const navigate = useNavigate();
     const [hasChanges, setHasChanges] = useState<boolean>(false);
+
+    const onNameChange = (e: any) => {
+        setHasChanges(true);
+        setName(e.target.value)
+    }
+
+    const onLinkChange = (e: any) => {
+        setHasChanges(true);
+        setLink(e.target.value)
+    }
 
     const onCancel = () => {
         if (hasChanges) {
@@ -87,15 +97,14 @@ export const AddDatasetPage = () => {
     const onConfirm = () => {
         const addDataset = async () => {
             setIsLoading(true);
-            const datasetId = await DatasetRepository.addDataset(internalToken);
-            await DatasetRepository.uploadDataset(internalToken);
+            const datasetId = await DatasetRepository.addDataset(name);
+            await DatasetRepository.uploadDataset(datasetId, link);
             navigate('/datasets');
         }
 
         addDataset()
             .catch(_ => setError("Request error"))
             .then(_ => setIsLoading(false));
-        
     }
 
     return (
@@ -104,11 +113,11 @@ export const AddDatasetPage = () => {
             <UploadContainer>
                 <InputBlock>
                     <TextSeparator>Dataset name</TextSeparator>
-                    <StyledTextInput placeholder="Enter name..." onChange={() => setHasChanges(true)}/>
+                    <StyledTextInput placeholder="Enter name..." onChange={e => onNameChange(e)}/>
                 </InputBlock>
                 <InputBlock>
                     <TextSeparator>CSV link</TextSeparator>
-                    <StyledTextInput placeholder="Paste URL..." onChange={() => setHasChanges(true)}/>
+                    <StyledTextInput placeholder="Paste URL..." onChange={e => onLinkChange(e)}/>
                 </InputBlock>
                 <ActionsContainer>
                     <CancelButton onClick={() => onCancel()}>Cancel</CancelButton>

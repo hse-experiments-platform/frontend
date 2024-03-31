@@ -1,11 +1,15 @@
 import styled from "styled-components";
+import { useState, useCallback } from 'react';
 import ProtectedPage from "../../components/pages/ProtectedPage";
 import * as Tabs from '@radix-ui/react-tabs';
-import { MetadataTab, DatasetRowsTab } from "./components";
+import { MetadataTab, DatasetRowsTab, SchemaTab } from "./components";
 import { TabsRoot } from "@radix-ui/themes";
+import DatasetMetadata from "../../model/datasets/DatasetMetadata";
+import DatasetRepository from "../../api/datasets/DatasetRepository";
+import { useParams } from "react-router-dom";
+import useRequest from "../../hooks/useRequest";
 
 const Root = styled(TabsRoot)`
-    
 `
 
 const TriggersList = styled(Tabs.List)`
@@ -43,28 +47,49 @@ const Content = styled(Tabs.Content)`
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     border: 1px solid black;
+    padding: 25px 30px;
 `
 
 export const DatasetInfoPage = () => {
+    const { id } = useParams();
+    const [activeTabValue, setActiveTabValue] = useState<string>('metadata');
+    const [metadata, setMetadata] = useState<DatasetMetadata | null>(null);
+    
+    const fetchMetadata = useCallback(async () => {
+        const datasetId: number = parseInt(id ?? '');
+        const response = await DatasetRepository.getDatasetMetadata(datasetId);
+        setMetadata(response);
+    }, [id, setMetadata]);
+    useRequest(fetchMetadata);
     
     return (
         <ProtectedPage>
-           <Root defaultValue='metadata'>
-                <TriggersList> 
-                    <Trigger value='metadata'>
-                        Metadata
-                    </Trigger>
-                    <Trigger value='rows'>
-                        Dataset rows
-                    </Trigger>
-                </TriggersList>
-                <TabsSeparator/>
-                <Content value='metadata'>
-                    <MetadataTab/>
-                </Content>
-                <Content value='rows'>
-                    <DatasetRowsTab/>
-                </Content>
+           <Root value={activeTabValue} onValueChange={(val: string) => setActiveTabValue(val)}>
+           <TriggersList> 
+                <Trigger value='metadata'>
+                    Metadata
+                </Trigger>
+                {metadata?.status !== 'LoadingError' && (
+                    <>
+                        <Trigger value='schema'>
+                            Schema
+                        </Trigger>
+                        <Trigger value='rows'>
+                            Dataset rows
+                        </Trigger>
+                    </>
+                )}
+            </TriggersList>
+            <TabsSeparator/>
+            <Content value='metadata'>
+                <MetadataTab metadata={metadata}/>
+            </Content>
+            <Content value='schema'>
+                <SchemaTab metadata={metadata}/>
+            </Content>
+            <Content value='rows'>
+                <DatasetRowsTab/>
+            </Content>
             </Root>
         </ProtectedPage>
     )

@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import { Routing } from './components';
 import { AuthContextProvider} from './contexts/AuthContext';
 import GlobalStyle from './globalStyles';
@@ -7,16 +7,16 @@ import { RequestContextProvider } from './contexts';
 function App() {
   
   return (
-    <React.StrictMode>
+    <StrictMode>
       <RequestContextProvider>
         <AuthContextProvider>
-          <>
+          <div>
             <GlobalStyle/>
             <Routing/>
-          </>
+          </div>
         </AuthContextProvider>
       </RequestContextProvider>
-    </React.StrictMode>
+    </StrictMode>
   );
 }
 
