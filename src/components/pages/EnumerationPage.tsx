@@ -7,6 +7,7 @@ import { CustomTable, PageTitle } from '../../components';
 import useRequest from "../../hooks/useRequest";
 import { PageControl } from "../../components/PageControl";
 import TableRow from "../TableRow";
+import { StyledButton } from "../StyledButton";
 
 const ButtonContainer = styled.div`
     display: flex;
@@ -33,13 +34,8 @@ const Panel = styled.div`
     padding: 20px 0 0 0;
 `
 
-const StyledButton = styled.div`
-    width: 100px;
-    height: 35px;
+const ColoredStyledButton = styled(StyledButton)`
     background-color: #0245D1;
-    border: 1 px solid black;
-    border-radius: 25px;
-    cursor: pointer;
 `
 
 const StyledInput = styled.input`
@@ -107,12 +103,12 @@ const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestDat
                     value={intermediateSearch}
                     onChange={e => onSearch(e.target.value)}
                 />
-                <StyledButton onClick={() => navigate(`${sectionUrl}/add`)}>
+                <ColoredStyledButton onClick={() => navigate(`${sectionUrl}/add`)}>
                     <ButtonContainer>
                         <StyledPlusIcon/>
                         <StyledButtonCaption>Add</StyledButtonCaption>
                     </ButtonContainer>
-                </StyledButton>
+                </ColoredStyledButton>
             </Panel>
             <CustomTable
                 rows={rows}

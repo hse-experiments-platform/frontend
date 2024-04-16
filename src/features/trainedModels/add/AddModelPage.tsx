@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useForm, SubmitHandler, FieldErrors} from 'react-hook-form';
 import styled from 'styled-components';
 import * as Accordion from '@radix-ui/react-accordion';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ import ScrollContainer from '../../../components/scroll/ScrollElements';
 import { DatasetParamsForm } from './forms/DatasetParametersForm';
 import TrainedModelsRepository from '../../../api/trainedModels/TrainedModelsRepository';
 import ModelTrainParams from '../../../model/ModelTrainParams';
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
 
 const HeaderContainer = styled.div`
     display: flex;
@@ -19,7 +21,7 @@ const HeaderContainer = styled.div`
     align-items: center;
 `
 
-const FormContainer = styled.div`
+const InputsContainer = styled.div`
     width: 100%;
     height: calc(100% - 70px);
     background-color: white;
@@ -29,84 +31,139 @@ const FormContainer = styled.div`
     padding: 15px 25px;
 `
 
-interface ParameterValue {
-    id: string;
+interface Parameter {
+    id: number;
     value: string;
 }
 
+interface NewModelParams {
+    mainInfo: MainInfo;
+    hyperparameters: Parameter[] | null;
+    datasetParams: DatasetParameters;
+}
+
+const newModelSchema: yup.ObjectSchema<NewModelParams> = yup.object().shape({
+    mainInfo: yup.object().shape({
+        name: yup.string().min(1, 'Name couldn`t be empty!').required('Required'),
+        problemId: yup.string().min(1, 'Problem must be selected!').required('Required'),
+        modelId:  yup.string().min(1, 'Model must be selected!').required('Required'),
+        datasetId: yup.string().min(1, 'Dataset must be selected!').required('Required'),
+    }).required(),
+    hyperparameters: yup.array().ensure().of(yup.object({
+        id: yup.number().integer().required(),
+        value: yup.string().required()
+    })).required(),
+    datasetParams: yup.object().shape({
+        targetColumn: yup.string().min(1, 'Target must be selected!').required('Required'),
+        trainTestSplit: yup.number().moreThan(0, 'Must be greater than 0').lessThan(1, 'Must be less than 1').required('Required'),
+    }).required(),
+});
+
 const AddModelPage = () => {
     const navigate = useNavigate();
-    const [mainInfo, setMainInfo] = useState<MainInfo | null>(null);
-    const [values, setValues] = useState<ParameterValue[]>([]);
-    const [datasetParams, setDatasetParams] = useState<DatasetParameters | null>(null);
+    const { register,
+            handleSubmit,
+            watch,
+            resetField,
+            formState: {
+                errors
+            },
+        } = useForm<NewModelParams>({
+        defaultValues: {
+            mainInfo: {
+                problemId: '',
+                modelId: '',
+                datasetId: ''
+            },
+            hyperparameters: null,
+            datasetParams: {
+                targetColumn: ''
+            }
+        },
+        resolver: yupResolver(newModelSchema)
+    });
+    
+    const modelId = watch("mainInfo.modelId");
+    const datasetId = watch("mainInfo.datasetId");
 
-    const submit = useCallback(async () => {
+    const submit: SubmitHandler<NewModelParams> = async (data) => {
         const hyperparams: any = {};
-        for (const val of values) {
-            hyperparams[val.id] = val.value;
+        for (const val of (data.hyperparameters ?? [])) {
+            if (val) {
+                hyperparams[val.id] = val.value;
+            }
         }
 
         await TrainedModelsRepository.addModelForTraining(new ModelTrainParams(
-            mainInfo?.name ?? '',
+            data.mainInfo?.name,
             {
-                modelID: mainInfo?.modelId ?? '',
+                modelID: data.mainInfo?.modelId ?? '',
                 hyperparameterValues: hyperparams
             },
             {
-                datasetID: mainInfo?.datasetId ?? '',
-                targetColumn: datasetParams?.targetColumn ?? '',
-                trainTestSplit: datasetParams?.trainTestSplit ?? 0
+                datasetID: data.mainInfo?.datasetId,
+                targetColumn: data.datasetParams?.targetColumn,
+                trainTestSplit: data.datasetParams?.trainTestSplit
             }
         ))
-    }, [mainInfo, values, datasetParams]);
+
+        navigate('/trained-models');
+    };
 
     return (
         <ProtectedPage>
-            <HeaderContainer>
-                <PageTitle title='Train the model'/>
-                <button onClick={async () => {
-                    await submit();
-                    navigate('/trained-models')
-                }}>Submit</button>
-            </HeaderContainer>
-            <FormContainer>
-                <ScrollContainer>
-                    <Accordion.Root type="multiple" defaultValue={['main']}>
-                    <AccordionItem
-                            value='main'
-                            title='Main info'
-                        >
-                            <MainInfoForm mainInfo={mainInfo} setMainInfo={setMainInfo}/>
-                        </AccordionItem>
-
-                        {!mainInfo || mainInfo.modelId.length === 0 ? null : (
-                            <AccordionItem
-                                value='hyperparameters'
-                                title='Hyperparameters'
+            <form onSubmit={handleSubmit(submit)}>
+                <HeaderContainer>
+                    <PageTitle title='Train the model'/>
+                    <button type='submit'>Submit</button>
+                </HeaderContainer>
+                <InputsContainer>
+                    <ScrollContainer>
+                        <Accordion.Root type="multiple" defaultValue={['main']}>
+                        <AccordionItem
+                                value='main'
+                                title='Main info'
                             >
-                                <HyperparametersForm 
-                                    modelId={mainInfo.modelId}
-                                    values={values}
-                                    setValues={setValues}
+                                <MainInfoForm
+                                    register={register}
+                                    watch={watch}
+                                    resetField={resetField}
+                                    errors={errors.mainInfo}
                                 />
-                            </AccordionItem>)
-                        }
+                            </AccordionItem>
 
-                        {!mainInfo || mainInfo.datasetId.length === 0 ? null : (
-                            <AccordionItem
-                                value='dataset'
-                                title='Dataset parameters'
-                            >
-                                <DatasetParamsForm
-                                    datasetId={mainInfo.datasetId}
-                                    datasetParams={datasetParams}
-                                    setDatasetParams={setDatasetParams}
-                                />
-                            </AccordionItem>)
-                        }
-                    </Accordion.Root>
-                </ScrollContainer>
-            </FormContainer>
+                            {modelId.length > 0 && (
+                                <AccordionItem
+                                    value='hyperparameters'
+                                    title='Hyperparameters'
+                                >
+                                    <HyperparametersForm
+                                        watch={watch}
+                                        modelId={modelId}
+                                        register={register}
+                                        resetField={resetField}
+                                    />
+                                </AccordionItem>)
+                            }
+
+                            {datasetId.length > 0 && (
+                                <AccordionItem
+                                    value='dataset'
+                                    title='Dataset parameters'
+                                >
+                                    <DatasetParamsForm
+                                        datasetId={datasetId}
+                                        register={register}
+                                        errors={errors?.datasetParams}
+                                        watch={watch}
+                                    />
+                                </AccordionItem>)
+                            }
+                        </Accordion.Root>
+                    </ScrollContainer>
+                    
+                </InputsContainer>
+            </form>
         </ProtectedPage>
     )
 }
