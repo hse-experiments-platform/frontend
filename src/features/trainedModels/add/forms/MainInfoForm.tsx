@@ -1,37 +1,26 @@
-import { useState, Dispatch, SetStateAction, useEffect, useCallback } from 'react';
-import { MainInfo } from '../MainInfoInterface';
-import { PropertyContainer, PropertyName, PropertyInput, PropertySelector, Option } from '../../../../components/descriptions';
+import { useState, useCallback } from 'react';
+import { PropertyContainer, Option, LabeledInput } from '../../../../components/descriptions';
 import useRequest from '../../../../hooks/useRequest';
 import DatasetRepository from '../../../../api/datasets/DatasetRepository';
 import ProblemsRepository from '../../../../api/problems/ProblemsRepository';
 import ModelsRepository from '../../../../api/models/ModelsRepository';
+import { LabeledSelector } from '../../../../components/descriptions/LabeledSelector';
 
 interface MainInfoFormProps {
-    mainInfo: MainInfo | null;
-    setMainInfo: Dispatch<SetStateAction<MainInfo | null>>;
+    watch: any;
+    register: any;
+    resetField: any;
+    errors: any;
 }
 
-export const MainInfoForm = ({mainInfo, setMainInfo}: MainInfoFormProps) => {
-    const [name, setName] = useState<string>(mainInfo?.name ?? '');
-    const [problemId, setProblemId] = useState<string>(mainInfo?.problemId ?? '');
-    const [modelId, setModelId] = useState<string>(mainInfo?.modelId ?? '');
-    const [datasetId, setDatasetId] = useState<string>(mainInfo?.datasetId ?? '');
+export const MainInfoForm = ({ register, watch, resetField, errors }: MainInfoFormProps) => {
+    const problemId: string = watch("mainInfo.problemId");
+    const modelId = watch("mainInfo.modelId");
+    const datasetId = watch("mainInfo.datasetId");
+
     const [datasetOptions, setDatasetOptions] = useState<Option[]>([]);
     const [problemOptions, setProblemOptions] = useState<Option[]>([]);
     const [modelOptions, setModelOptions] = useState<Option[]>([]);
-
-    useEffect(() => {
-        setModelId('');
-    }, [problemId])
-
-    useEffect(() => {
-        setMainInfo({
-            name,
-            problemId,
-            modelId,
-            datasetId
-        })
-    }, [setMainInfo, name, problemId, modelId, datasetId]);
 
     const fetchDataset = useCallback(async () => {
         const response = await DatasetRepository.getReadyDatasets();
@@ -67,23 +56,40 @@ export const MainInfoForm = ({mainInfo, setMainInfo}: MainInfoFormProps) => {
 
     return (
         <PropertyContainer>
-            <PropertyName text={'Trained model name'}/>
-            <PropertyInput value={name} setValue={(newVal:string) => setName(newVal)}/>
-
-            <PropertyName text={'Problem'}/>
-            <PropertySelector selectedId={problemId} selectOption={(newId:string) => setProblemId(newId)} options={problemOptions}/>
+            <LabeledInput label='Trained model name' register={register('mainInfo.name')} error={errors?.name?.message}/>
+            <LabeledSelector
+                label='Problem'
+                register={register("mainInfo.problemId")}
+                onChangeCallback={() => {resetField("mainInfo.modelId"); resetField("hyperparameters", {defaultValue: null})}}
+                options={problemOptions}
+                defaultValue=''
+                isDefaultSelected={problemId === ''}
+                error={errors?.problemId?.message}
+            />
             
-            {problemId.length === 0 ? null : 
+            {problemId.length > 0 &&
                 (
-                    <>
-                        <PropertyName text={'Model'}/>
-                        <PropertySelector selectedId={modelId} selectOption={(newId:string) => setModelId(newId)} options={modelOptions}/>
-                    </>
+                    <LabeledSelector
+                        label='Model'
+                        register={register('mainInfo.modelId')}
+                        onChangeCallback={() => resetField("hyperparameters")}
+                        options={modelOptions}
+                        defaultValue=''
+                        isDefaultSelected={modelId === ''}
+                        error={errors?.modelId?.message}
+                    />
                 )
             }
 
-            <PropertyName text={'Dataset'}/>
-            <PropertySelector selectedId={datasetId} selectOption={(newId:string) => setDatasetId(newId)} options={datasetOptions}/>
+            <LabeledSelector
+                label='Dataset' 
+                register={register('mainInfo.datasetId')}
+                onChangeCallback={() => resetField("datasetParams")}
+                options={datasetOptions}
+                defaultValue=''
+                isDefaultSelected={datasetId === ''}
+                error={errors?.datasetId?.message}
+            />           
         </PropertyContainer>
     )
 }

@@ -20,6 +20,16 @@ const InnerWrapper = styled.div`
     width: 100%;
 `
 
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+`
+
 const ProtectedPage = ({ children }: { children: any }) => {
     const navigate = useNavigate();
     const { isAuthorized, setIsAuthorized } = useContext(AuthContext) as AuthContextType;
@@ -38,6 +48,13 @@ const ProtectedPage = ({ children }: { children: any }) => {
         }
     }, [navigate, isAuthorized]);
 
+    const spinnerStyle = {
+        position: 'absolute',
+        top: '43%',
+        left: '47%',
+        zIndex: '9999',
+    };
+
     return (
         <div>
             <Header />
@@ -45,14 +62,16 @@ const ProtectedPage = ({ children }: { children: any }) => {
                 <CustomSidebar />
                 <Page>
                     <InnerWrapper>
-                        {isLoading ?
-                            <TailSpin
-                                color='black'
-                                wrapperStyle={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}
-                            /> : (error ?
-                                <ErrorPage /> : children
-                            )
-                        }
+                        {isLoading && (
+                            <>
+                                <Overlay/>
+                                <TailSpin
+                                    color='black'
+                                    wrapperStyle={spinnerStyle}
+                                />
+                            </>
+                        )}
+                        {error ? <ErrorPage /> : children}
                     </InnerWrapper>
                 </Page>
             </Main>

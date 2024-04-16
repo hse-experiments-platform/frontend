@@ -1,26 +1,19 @@
-import { useState, Dispatch, SetStateAction, useEffect, useCallback } from 'react';
-import { DatasetParameters } from '../MainInfoInterface';
-import { PropertyContainer, PropertyName, PropertyInput, PropertySelector, Option } from '../../../../components/descriptions';
+import { useState, useCallback } from 'react';
+import { PropertyContainer, Option, LabeledInput } from '../../../../components/descriptions';
 import useRequest from '../../../../hooks/useRequest';
 import DatasetRepository from '../../../../api/datasets/DatasetRepository';
+import { LabeledSelector } from '../../../../components/descriptions/LabeledSelector';
 
 interface DatasetParamsFormProps {
     datasetId: string;
-    datasetParams: DatasetParameters | null;
-    setDatasetParams: Dispatch<SetStateAction<DatasetParameters | null>>;
+    register: any;
+    errors: any;
+    watch: any;
 }
 
-export const DatasetParamsForm = ({datasetId, datasetParams, setDatasetParams}: DatasetParamsFormProps) => {
-    const [target, setTarget] = useState<string>(datasetParams?.targetColumn ?? '');
-    const [splitRatio, setSplitRatio] = useState<number>(datasetParams?.trainTestSplit ?? 0);
+export const DatasetParamsForm = ({datasetId, register, watch, errors}: DatasetParamsFormProps) => {
     const [columnOptions, setColumnOptions] = useState<Option[]>([]);
-
-    useEffect(() => {
-        setDatasetParams({
-            targetColumn: target,
-            trainTestSplit: splitRatio
-        })
-    }, [setDatasetParams, target, splitRatio]);
+    const targetColumn: string = watch("datasetParams.targetColumn");
 
     const fetchDatasetSchema = useCallback(async () => {
         const response = await DatasetRepository.getDatasetSchema(parseInt(datasetId));
@@ -32,18 +25,21 @@ export const DatasetParamsForm = ({datasetId, datasetParams, setDatasetParams}: 
     }, [setColumnOptions]);
     useRequest(fetchDatasetSchema, false);
 
-    const onRatioChange = (value: string) => {
-        const num = parseFloat(value);
-        setSplitRatio(num);
-    }
-
     return (
         <PropertyContainer>
-            <PropertyName text={'Train test ratio'}/>
-            <PropertyInput value={splitRatio.toString()} setValue={(newVal: string) => onRatioChange(newVal)}/>
-
-            <PropertyName text={'Target column'}/>
-            <PropertySelector selectedId={target} selectOption={(newId:string) => setTarget(newId)} options={columnOptions}/>
+            <LabeledInput
+                label='Train test ratio'
+                register={register("datasetParams.trainTestSplit")}
+                error={errors?.trainTestSplit?.message}
+            />
+            <LabeledSelector
+                label='Target column'
+                register={register("datasetParams.targetColumn")}
+                options={columnOptions}
+                defaultValue=''
+                isDefaultSelected={targetColumn === ''}
+                error={errors?.targetColumn?.message}
+            />
         </PropertyContainer>
     )
 }
