@@ -65,6 +65,11 @@ class DatasetRepository {
             columnTypes: schema
         });
     }
+
+    static async getDatasetForModel(): Promise<Dataset[]> {
+        const datasets = await this.getReadyDatasets();
+        return datasets;//.filter(d => d.name.includes('Wine'));
+    }
 }
 
 export default DatasetRepository;

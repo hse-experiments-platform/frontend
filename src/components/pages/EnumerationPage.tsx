@@ -40,6 +40,7 @@ const ColoredStyledButton = styled(StyledButton)`
 
 const StyledInput = styled.input`
     width: 300px;
+    height: 25px;
     border: 1px solid black;
     border-radius: 25px;
     font-family: 'Lato';
@@ -53,10 +54,14 @@ interface EnumerationPageProps {
     requestPagesAmount: (query: string) => Promise<number>;
     requestData: (pageNumber: number, query: string) => Promise<any[]>;
     dataTransformer: (item: any) => TableRow;
-    sectionUrl: string;
+    addUrl?: string;
+    getItemUrl: (itemId: string) => string;
+    division?: string;
 }
 
-const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestData, dataTransformer, sectionUrl}: EnumerationPageProps) => {
+const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestData,
+    dataTransformer, addUrl, getItemUrl, division
+}: EnumerationPageProps) => {
     const [maxPageNumber, setMaxPageNumber] = useState<number>(1);
     const [pageIndex, setPageIndex] = useState<number>(1);
     const [rows, setRows] = useState<TableRow[]>([]);
@@ -103,18 +108,18 @@ const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestDat
                     value={intermediateSearch}
                     onChange={e => onSearch(e.target.value)}
                 />
-                <ColoredStyledButton onClick={() => navigate(`${sectionUrl}/add`)}>
+                {addUrl && <ColoredStyledButton onClick={() => navigate(addUrl)}>
                     <ButtonContainer>
                         <StyledPlusIcon/>
                         <StyledButtonCaption>Add</StyledButtonCaption>
                     </ButtonContainer>
-                </ColoredStyledButton>
+                </ColoredStyledButton>}
             </Panel>
             <CustomTable
                 rows={rows}
                 columnNames={columnNames}
-                division={'1fr '.repeat(columnNames.length)}
-                onClick={(id: string) => navigate(`${sectionUrl}/${id}`)}
+                division={division ?? '1fr '.repeat(columnNames.length)}
+                onClick={(id: string) => navigate(getItemUrl(id))}
             />
             <PageControl
                 pageIndex={pageIndex}

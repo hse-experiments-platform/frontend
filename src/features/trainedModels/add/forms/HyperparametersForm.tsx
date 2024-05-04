@@ -23,7 +23,10 @@ const HyperparametersForm = ({register, resetField, watch, modelId}: Hyperparame
         
         for (const hyperparameter of response) {
             resetField(`hyperparameters.${hyperparameter.id}`, {
-                defaultValue: hyperparameter.defaultValue
+                defaultValue: {
+                    id: hyperparameter.id,
+                    value: hyperparameter.defaultValue
+                }
             })
         }
     }, [modelId, resetField]);
@@ -35,7 +38,7 @@ const HyperparametersForm = ({register, resetField, watch, modelId}: Hyperparame
                 <>
                     <LabeledInput
                         label={parameter.name}
-                        register={register(`hyperparameters.${parameter.id}`)}
+                        register={register(`hyperparameters.${parameter.id}.value`)}
                     />
                 </>
             ))}

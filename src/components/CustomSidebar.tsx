@@ -8,6 +8,8 @@ import { TbGraph } from "react-icons/tb";
 import { TbLogout } from "react-icons/tb";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaArrowRightLong } from "react-icons/fa6";
+import { FaRegChartBar } from "react-icons/fa";
+import { MdOutlinePublishedWithChanges } from "react-icons/md";
 
 const StyledSidebar = styled(Sidebar)`
   color: white;
@@ -42,6 +44,20 @@ export const CustomSidebar = () => {
                 active={true}
               >
                 Models
+              </MenuItem>
+              <MenuItem
+                component={<Link to="/experiments" />}
+                icon={<FaRegChartBar size={"30px"}/>}
+                active={true}
+              >
+                Experiments
+              </MenuItem>
+              <MenuItem
+                component={<Link to="/converters" />}
+                icon={<MdOutlinePublishedWithChanges size={"30px"}/>}
+                active={true}
+              >
+                Converters
               </MenuItem>
 
               <MenuItem

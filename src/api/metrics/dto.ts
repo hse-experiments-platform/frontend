@@ -1,5 +1,5 @@
-import Metric from "../../model/metrics/Metric";
+import TrainedModelMetrics from "../../model/metrics/TrainedModelMetrics";
 
 export interface GetMetricResponse {
-    metrics: Metric[];
+    metrics: TrainedModelMetrics;
 }

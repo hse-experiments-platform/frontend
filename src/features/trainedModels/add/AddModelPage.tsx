@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler, FieldErrors} from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import styled from 'styled-components';
 import * as Accordion from '@radix-ui/react-accordion';
 import { useNavigate } from 'react-router-dom';
@@ -112,7 +112,7 @@ const AddModelPage = () => {
 
     return (
         <ProtectedPage>
-            <form onSubmit={handleSubmit(submit)}>
+            <form onSubmit={handleSubmit(submit, error => console.log(error))}>
                 <HeaderContainer>
                     <PageTitle title='Train the model'/>
                     <button type='submit'>Submit</button>
