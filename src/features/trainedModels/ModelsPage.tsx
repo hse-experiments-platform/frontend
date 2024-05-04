@@ -15,6 +15,12 @@ const ModelsPage = () => {
         }
     }
 
+    window.addEventListener("unload", function(){
+        var count = parseInt(localStorage.getItem('trained') || '0');
+      
+        localStorage.setItem('trained', (++count).toString())
+      }, false);
+
     return (
         <EnumerationPage
             pageTitle="Trained models"
@@ -22,7 +28,8 @@ const ModelsPage = () => {
             requestData={dataRequest}
             requestPagesAmount={paginationRequest}
             dataTransformer={dataTransformer}
-            sectionUrl="/trained-models"
+            addUrl="/trained-models/add"
+            getItemUrl={(id: string) => `/trained-models/${id}`}
         />
     );
 }

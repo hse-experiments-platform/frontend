@@ -7,3 +7,4 @@ export * from './CustomTable';
 export * from './ShallowTable';
 export * from './PageControl';
 export * from './StyledButton';
+export * from './LabeledImage';

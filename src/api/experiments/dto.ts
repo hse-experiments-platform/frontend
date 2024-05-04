@@ -1,4 +1,4 @@
-import ExperimentInfo from "../../model/experiments/Experiment";
+import ExperimentInfo from "../../model/experiments/ExperimentInfo";
 
 export interface GetExperimentsResponse {
     experiments: ExperimentInfo[];

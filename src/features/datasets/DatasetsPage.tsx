@@ -22,7 +22,8 @@ const DatasetsPage = () => {
             requestData={dataRequest}
             requestPagesAmount={paginationRequest}
             dataTransformer={dataTransformer}
-            sectionUrl="/datasets"
+            addUrl="/datasets/add"
+            getItemUrl={(id: string) => `/datasets/${id}`}
         />
     );
 }

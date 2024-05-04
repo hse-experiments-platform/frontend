@@ -11,7 +11,14 @@ import { AddDatasetPage } from "../features/datasets/AddDatasetPage";
 import { LogoutPage } from "../features/auth/LogoutPage";
 import AddModelPage from "../features/trainedModels/add/AddModelPage";
 import InfoPage from "../features/info/InfoPage";
-import TrainedModelPage from "../features/trainedModels/TrainedModelPage";
+import TrainedModelPage from "../features/trainedModels/trained/TrainedModelPage";
+import ListExperimentsPage from "../features/experiments/ListExperimentsPage";
+import ListConvertersPage from "../features/converters/ListConvertersPage";
+import { GraphicUploadPage } from "../features/converters/GraphicUpload";
+import LaunchExperimentPage from "../features/experiments/LaunchExperimentPage";
+import ExperimentInfoPage from "../features/experiments/ExperimentInfoPage";
+import { GraphicScaleDefinePage } from "../features/converters/GraphicScaleDefinePage";
+import { ImageConvertResultPage } from "../features/converters/ImageConvertResultPage";
 
 export const Routing = () => {
     return (
@@ -44,6 +51,34 @@ export const Routing = () => {
               <Route
                 path="/trained-models/add"
                 element={<AddModelPage/>}
+              />
+              <Route
+                path="/experiments"
+                element={<ListExperimentsPage/>}
+              />
+              <Route
+                path="/experiments/:id"
+                element={<ExperimentInfoPage/>}
+              />
+              <Route
+                path="/experiments/add"
+                element={<LaunchExperimentPage/>}
+              />
+              <Route
+                path="/converters"
+                element={<ListConvertersPage/>}
+              />
+              <Route
+                path="/converters/graphic/upload"
+                element={<GraphicUploadPage/>}
+              />
+              <Route
+                path="/converters/graphic/define-scale"
+                element={<GraphicScaleDefinePage/>}
+              />
+              <Route
+                path="/converters/graphic/result"
+                element={<ImageConvertResultPage/>}
               />
                <Route
                 path="/info"

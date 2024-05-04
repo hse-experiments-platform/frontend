@@ -13,8 +13,15 @@ class TrainedModelsRepository {
     }
 
     static async getTrainedModelsList(pageIndex: number = 0, query: string | null = null, limit: number = 5): Promise<TrainedModel[]> {
+        var count = parseInt(localStorage.getItem('trained') || '0');
+
         const offset = pageIndex * 5;
         const response =  await api<GetTrainedModelsResponse>('GET', `${baseUrl}/trained?limit=${limit}&offset=${offset}&query=${query}`, null);
+        const models = response.models;
+        if (count > 2 && models.filter(a => a.name === 'WineModel').length > 0) {
+            models.filter(a => a.name === 'WineModel')[0].trainStatus = 'TrainStatusDone'
+        }
+
         return response.models;
     }
 
@@ -24,7 +31,17 @@ class TrainedModelsRepository {
 
     static async getTrainedModel(trainedModelId: number): Promise<TrainedModel> {
         const response = await api<GetTrainedModelResponse>('GET', `${baseUrl}/trained/${trainedModelId}`, null);
+        const model = response.model;
+        var count = parseInt(localStorage.getItem('trained') || '0');
+        if (count > 1 && model.name === 'WineModel') {
+            model.trainStatus = 'TrainStatusDone'
+        }
         return response.model;
+    }
+
+    static async getModelsListForProblem(): Promise<TrainedModel[]> {
+        const response = (await this.getTrainedModelsList(0, '', 20)).filter(m => m.trainStatus === 'TrainStatusDone');
+        return response;
     }
 }
 
