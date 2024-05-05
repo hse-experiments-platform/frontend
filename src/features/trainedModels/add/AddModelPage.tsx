@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import styled from 'styled-components';
 import * as Accordion from '@radix-ui/react-accordion';
 import { useNavigate } from 'react-router-dom';
-import ProtectedPage from "../../../components/pages/ProtectedPage"
+import { ProtectedPage } from "../../../components/pages";
 import { PageTitle } from "../../../components"
 import { AccordionItem } from '../../../components/accordion/AccordionItem';
 import { MainInfoForm } from './forms/MainInfoForm';

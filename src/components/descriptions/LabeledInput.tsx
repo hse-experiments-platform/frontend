@@ -4,8 +4,10 @@ import ValidatedProperty from './ValidatedProperty';
 
 interface LabeledInputProps {
     label: string;
-    register: any;
+    register?: any;
     error?: string;
+    disabled?: boolean;
+    constValue?: string;
 }
 
 const StyledInput = styled.input`
@@ -17,12 +19,12 @@ const StyledInput = styled.input`
     padding-left: 10px;
 `
 
-export const LabeledInput = ({label, register, error}: LabeledInputProps) => {
+export const LabeledInput = ({label, register, error, disabled, constValue}: LabeledInputProps) => {
     return (
         <>
             <PropertyName text={label}/>
             <ValidatedProperty errorMessage={error}>
-                <StyledInput {...register}/>
+                <StyledInput {...register} disabled={disabled} value={constValue}/>
             </ValidatedProperty>
         </>
     )

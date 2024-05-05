@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AuthContext, AuthContextType } from "../../contexts/AuthContext";
-import ProtectedPage from "../../components/pages/ProtectedPage";
+import { ProtectedPage } from "../../components/pages";
 
 export const LogoutPage = () => {
     const { setIsAuthorized } = useContext(AuthContext) as AuthContextType;

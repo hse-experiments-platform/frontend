@@ -1,10 +1,10 @@
 import EnumerationPage from "../../components/pages/EnumerationPage";
-import DatasetRepository from "../../api/datasets/DatasetRepository";
+import { DatasetRepository } from "../../api";
 import Dataset from "../../model/datasets/Dataset";
 import TableRow from "../../components/TableRow";
 
 
-const DatasetsPage = () => {
+export const DatasetsPage = () => {
     const dataRequest = async (page: number, query: string) => await DatasetRepository.getDatasetsList(page, query);
     const paginationRequest = async (query: string) => await DatasetRepository.getPagesCount(query);
 
@@ -27,5 +27,3 @@ const DatasetsPage = () => {
         />
     );
 }
-
-export default DatasetsPage;

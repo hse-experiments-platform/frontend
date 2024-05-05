@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { useLocation } from "react-router-dom"
 import { PageTitle } from "../../components"
-import ProtectedPage from "../../components/pages/ProtectedPage"
+import { ProtectedPage } from "../../components/pages";
 import FileDownloader from '../../components/FileDownloader'
 
 const StyledImage = styled.img`

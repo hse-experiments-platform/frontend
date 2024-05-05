@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import useRequest from '../../../hooks/useRequest';
 import { TrainedModel } from '../../../model/trainedModels';
 import TrainedModelsRepository from '../../../api/trainedModels/TrainedModelsRepository';
-import ProtectedPage from '../../../components/pages/ProtectedPage';
+import { ProtectedPage } from '../../../components/pages';
 import { PageTitle } from '../../../components';
 import styled from 'styled-components';
 import MetricsRepository from '../../../api/metrics/MetricsRepository';

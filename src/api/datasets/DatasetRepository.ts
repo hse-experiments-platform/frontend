@@ -7,7 +7,7 @@ import { datasetsBaseUrl as baseUrl } from '../constants';
 import { GetPaginationInfo } from '../commonDto';
 import DatasetColumn from '../../model/datasets/DatasetColumn';
 
-class DatasetRepository {
+export class DatasetRepository {
     static async getPagesCount(query: string | null = null): Promise<number> {
         const response =  await api<GetPaginationInfo>('GET', `${baseUrl}/datasets?limit=10&query=${query}`, null);
         const pagesNum = Math.ceil(response.pageInfo.total / 5.0);
@@ -71,5 +71,3 @@ class DatasetRepository {
         return datasets;//.filter(d => d.name.includes('Wine'));
     }
 }
-
-export default DatasetRepository;

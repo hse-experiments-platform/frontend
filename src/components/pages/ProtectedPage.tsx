@@ -30,7 +30,7 @@ const Overlay = styled.div`
     z-index: 999;
 `
 
-const ProtectedPage = ({ children }: { children: any }) => {
+export const ProtectedPage = ({ children }: { children: any }) => {
     const navigate = useNavigate();
     const { isAuthorized, setIsAuthorized } = useContext(AuthContext) as AuthContextType;
     const { error, isLoading, setError, setIsLoading } = useContext(RequestContext) as RequestContextType;
@@ -78,5 +78,3 @@ const ProtectedPage = ({ children }: { children: any }) => {
         </div>
     )
 }
-
-export default ProtectedPage;
