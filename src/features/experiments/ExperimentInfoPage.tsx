@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import ProtectedPage from "../../components/pages/ProtectedPage"
+import { ProtectedPage } from "../../components/pages";
 import { PageTitle } from '../../components';
 import { LabeledInput, PropertyContainer, PropertyInput, PropertyName } from '../../components/descriptions';
 import ExperimentInfo from '../../model/experiments/ExperimentInfo';

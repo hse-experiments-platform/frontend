@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ProtectedPage from '../../components/pages/ProtectedPage';
+import { ProtectedPage } from "../../components/pages";
 import { LabeledInput, PropertyContainer } from '../../components/descriptions';
 import { PageTitle } from '../../components';
 import Scale from '../../model/scale/Scale';

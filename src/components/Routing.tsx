@@ -4,10 +4,8 @@ import {
     Route
 } from "react-router-dom";
 import { AuthPage } from '../features/auth/AuthPage';
-import DatasetsPage from '../features/datasets/DatasetsPage';
+import { DatasetsPage, AddDatasetPage, DatasetInfoPage, DatasetTransformPage } from "../features/datasets";
 import ModelsPage from '../features/trainedModels/ModelsPage';
-import { DatasetInfoPage } from "../features/datasets/DatasetInfoPage";
-import { AddDatasetPage } from "../features/datasets/AddDatasetPage";
 import { LogoutPage } from "../features/auth/LogoutPage";
 import AddModelPage from "../features/trainedModels/add/AddModelPage";
 import InfoPage from "../features/info/InfoPage";
@@ -39,6 +37,10 @@ export const Routing = () => {
                <Route
                path="/datasets/add"
                 element={<AddDatasetPage/>}
+              />
+              <Route
+               path="/datasets/:id/transform"
+                element={<DatasetTransformPage/>}
               />
               <Route
                 path="/trained-models"

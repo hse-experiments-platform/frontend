@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import DatasetMetadata from "../../../model/datasets/DatasetMetadata";
 import { useState, useCallback, useContext } from 'react';
 import DatasetColumn from '../../../model/datasets/DatasetColumn';
-import DatasetRepository from '../../../api/datasets/DatasetRepository';
+import { DatasetRepository } from '../../../api';
 import { PropertyName } from '../../../components/descriptions';
 import useRequest from '../../../hooks/useRequest';
 import SchemaTable from './SchemaTable';

@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import ProtectedPage from "../../components/pages/ProtectedPage";
+import { ProtectedPage } from "../../components/pages";
 import { RequestContext, RequestContextType } from "../../contexts";
-import DatasetRepository from "../../api/datasets/DatasetRepository";
+import { DatasetRepository } from "../../api";
 
 const StyledTitle = styled.h2`
     width: 100%;

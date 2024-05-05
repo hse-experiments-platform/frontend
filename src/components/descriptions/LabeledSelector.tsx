@@ -7,7 +7,7 @@ interface LabeledSelectorProps {
     register: any;
     onChangeCallback?: () => void;
     options: Option[];
-    defaultValue: string;
+    defaultValue?: string;
     isDefaultSelected?: boolean;
     error?: string;
 }

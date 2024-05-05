@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import ProtectedPage from "../../components/pages/ProtectedPage";
+import { ProtectedPage } from "../../components/pages";
 import styled from 'styled-components';
 import { FaPlus } from "react-icons/fa6";
 import { CustomTable, PageTitle } from '../../components';

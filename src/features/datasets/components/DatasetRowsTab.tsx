@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ShallowTable, PageControl } from "../../../components";
 import DatasetRow from '../../../model/datasets/DatasetRow';
 import DatasetColumn from '../../../model/datasets/DatasetColumn';
-import DatasetRepository from '../../../api/datasets/DatasetRepository';
+import { DatasetRepository } from '../../../api';
 import useRequest from '../../../hooks/useRequest';
 
 const TableContainer = styled.div`

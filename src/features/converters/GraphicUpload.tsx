@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import ProtectedPage from "../../components/pages/ProtectedPage"
+import { ProtectedPage } from "../../components/pages";
 
 const StyledTitle = styled.h2`
     width: 100%;

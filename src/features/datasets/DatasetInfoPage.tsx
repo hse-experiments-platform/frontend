@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { useState, useCallback } from 'react';
-import ProtectedPage from "../../components/pages/ProtectedPage";
+import { ProtectedPage } from "../../components/pages";
 import * as Tabs from '@radix-ui/react-tabs';
 import { MetadataTab, DatasetRowsTab, SchemaTab } from "./components";
 import { TabsRoot } from "@radix-ui/themes";
 import DatasetMetadata from "../../model/datasets/DatasetMetadata";
-import DatasetRepository from "../../api/datasets/DatasetRepository";
+import { DatasetRepository } from "../../api";
 import { useParams } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
 

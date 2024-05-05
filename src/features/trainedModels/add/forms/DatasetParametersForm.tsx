@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { PropertyContainer, Option, LabeledInput } from '../../../../components/descriptions';
 import useRequest from '../../../../hooks/useRequest';
-import DatasetRepository from '../../../../api/datasets/DatasetRepository';
+import { DatasetRepository } from '../../../../api';
 import { LabeledSelector } from '../../../../components/descriptions/LabeledSelector';
 
 interface DatasetParamsFormProps {
