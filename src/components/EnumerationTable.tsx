@@ -1,11 +1,15 @@
+import { useMemo, useCallback } from "react";
 import styled from "styled-components";
+import { SlOptions } from "react-icons/sl";
 import TableRow from "./TableRow";
+import { DropdownMenuOption, DropdownMenu } from "./DropdownMenu";
 
-interface CustomTableProps {
+interface EnumerationTableProps {
     columnNames: string[];
     rows: TableRow[];
     division: string;
     onClick: (id: string) => void;
+    options?: DropdownMenuOption[];
 }
 
 const Container = styled.div`
@@ -38,29 +42,39 @@ const DataRow = styled.div<{division: string}>`
     margin-bottom: 20px;
     padding-bottom: 10px;
     font-family: 'Lato';
-    cursor: pointer;
 `;
 
 const DataCell = styled.div`
-
+    cursor: pointer;
 `;
 
+const StyledOptionsIcon = styled(SlOptions)`
+    color: #03256C;
+    width: 20px;
+    height: 20px;
+`
 
-export const CustomTable = ({columnNames, rows, division, onClick}: CustomTableProps) => {
-    
+
+export const EnumerationTable = ({columnNames, rows, division, onClick, options=[]}: EnumerationTableProps) => {
+    const processedDivision: string = useMemo(() => `${division} 25px`, [division]);
+    const optionIcon = useMemo(() => (<StyledOptionsIcon />), [])
+    const getDropdown = useCallback((itemId: string) =>
+        <DropdownMenu trigger={optionIcon} options={options} itemId={itemId}/>, [options]);
+
     return (
         <Container>
-            <HeaderDataRow division={division}>
+            <HeaderDataRow division={processedDivision}>
                 {columnNames.map(column => (
                         <div>{column}</div>
                 ))}
             </HeaderDataRow>
 
             {rows.map(row => (
-                <DataRow division={division} key={row.id}>
+                <DataRow division={processedDivision} key={row.id}>
                     {row.values.map((value, index) => (
                         <DataCell onClick={() => onClick(row.id)} key={index}>{value}</DataCell>
                     ))}
+                    {options.length > 0 && getDropdown(row.id)}
                 </DataRow>
             ))}
         </Container>

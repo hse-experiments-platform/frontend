@@ -5,7 +5,7 @@ import { AddDatasetResponse, GetDatasetMetadataResponse, GetDatasetsResponse, Ge
 import { api } from "../utils";
 import { datasetsBaseUrl as baseUrl } from '../constants';
 import { GetPaginationInfo } from '../commonDto';
-import DatasetColumn from '../../model/datasets/DatasetColumn';
+import { DatasetColumn } from '../../model/datasets';
 
 export class DatasetRepository {
     static async getPagesCount(query: string | null = null): Promise<number> {
@@ -35,7 +35,8 @@ export class DatasetRepository {
 
     static async getDatasetMetadata(datasetId: number): Promise<DatasetMetadata> {
         const response =  await api<GetDatasetMetadataResponse>('GET', `${baseUrl}/datasets/${datasetId}`, null);
-        return response.dataset;
+        const data = response.dataset;
+        return new DatasetMetadata(data.id, data.name, data.version, data.status, data.rowsCount, data.uploadError);
     }
 
     static async getDatasetRows(datasetId: number, pageIndex: number = 0): Promise<DatasetRow[]> {

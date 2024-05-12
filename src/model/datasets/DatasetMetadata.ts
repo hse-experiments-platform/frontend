@@ -14,6 +14,10 @@ class DatasetMetadata {
         this.rowsCount = rowsCount;
         this.uploadError = uploadError;
     }
+
+    couldBePreprocessed(): boolean {
+        return ['ConvertationError', 'WaitsConvertation'].includes(this.status);
+    }
 }
 
 export default DatasetMetadata;

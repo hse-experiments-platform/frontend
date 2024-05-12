@@ -1,5 +1,4 @@
-import AggregateFunction from "./AggregateFunction";
-import FillingTechnique from "./FillingTechnique";
+import { AggregateFunction, FillingTechnique } from "..";
 
 class OutliersReplacementStrategy {
     mode: FillingTechnique;

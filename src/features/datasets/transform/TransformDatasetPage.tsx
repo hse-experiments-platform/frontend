@@ -2,16 +2,16 @@ import { useMemo, useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { DatasetRepository } from '../../../api';
-import { PageTitle } from "../../../components"
+import { HeaderContainer, PageTitle, StyledButton } from "../../../components"
 import { TabInfo, TabsControl } from "../../../components/tabs";
 import { ProtectedPage } from "../../../components/pages"
 import useRequest from "../../../hooks/useRequest";
-import DatasetColumn from "../../../model/datasets/DatasetColumn";
 import { SettingsTab } from "./SettingsTab"
 import { AnalyticsTab } from './AnalyticsTab';
+import { DatasetColumn } from '../../../model/datasets/DatasetColumn'
 import DatasetTransformSettings from '../../../model/datasets/transform/DatasetTranfromSettings';
 
-export const DatasetTransformPage = () => {
+export const TransformDatasetPage = () => {
     const { id } = useParams();
     const [columns, setColumns] = useState<DatasetColumn[]>([]);
 
@@ -49,9 +49,11 @@ export const DatasetTransformPage = () => {
     return (
         <ProtectedPage>
             <form onSubmit={handleSubmit(submit, error => console.log(error))}>
-                <PageTitle title='Dataset transform'/>
-                <button type='submit'>Submit</button>
-                <TabsControl tabs={[analyticsTab, settingsTab]} defaultTab="Analytics"/>
+                <HeaderContainer>
+                    <PageTitle title='Dataset transform'/>
+                    <StyledButton type='submit'>Submit</StyledButton>
+                </HeaderContainer>
+                <TabsControl tabs={[settingsTab]} defaultTab="Settings"/>
             </form>
         </ProtectedPage>
     )

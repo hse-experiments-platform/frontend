@@ -1,5 +1,5 @@
 import { PropertyName } from "./PropertyName";
-import { Option } from "./PropertySelector";
+import { Option } from "../../model/Option";
 import ValidatedProperty from "./ValidatedProperty";
 
 interface LabeledSelectorProps {

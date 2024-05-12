@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import * as Accordion from '@radix-ui/react-accordion';
 import { TiArrowSortedDown } from "react-icons/ti";
 
-const StyledArrowDown = styled(TiArrowSortedDown)`
-    color: #03256C;
+const StyledArrowDown = styled(TiArrowSortedDown)<{disabled: boolean}>`
+    color: ${props => props.disabled ? "grey" : "#03256C"};
     width: 30px;
     height: 30px;
 `
@@ -24,9 +24,16 @@ const AccordionTrigger = styled(Accordion.Trigger)`
     }
 `
 
-const ItemTitle = styled.h3`
+const AccordionHeader = styled(Accordion.Header)`
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+`
+
+const ItemTitle = styled.h3<{disabled: boolean}>`
     display: block;
-    color: #03256C;
+    color: ${props => props.disabled ? "grey" : "#03256C"};
     font-size: 20px;
 `
 
@@ -37,18 +44,21 @@ const AccordionContent = styled(Accordion.Content)`
 interface AccordionItemProps {
     value: string;
     title: string;
-    children: any;
+    children?: any;
+    headerAdditionalAction?: JSX.Element;
+    disabled?: boolean;
 }
 
-export const AccordionItem = ({value, title, children}: AccordionItemProps) => {
+export const AccordionItem = ({value, title, children, headerAdditionalAction, disabled=false}: AccordionItemProps) => {
     return (
-        <Accordion.Item value={value}>
-            <Accordion.Header>
+        <Accordion.Item value={value} disabled={disabled}>
+            <AccordionHeader>
                 <AccordionTrigger>
-                    <ItemTitle>{title}</ItemTitle>
-                    <StyledArrowDown/>
+                    <ItemTitle disabled={disabled}>{title}</ItemTitle>
+                    <StyledArrowDown disabled={disabled}/>
                 </AccordionTrigger>
-            </Accordion.Header>
+                {headerAdditionalAction}
+            </AccordionHeader>
             <AccordionContent>
                 {children}
             </AccordionContent>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useParams } from "react-router-dom";
 import { ShallowTable, PageControl } from "../../../components";
 import DatasetRow from '../../../model/datasets/DatasetRow';
-import DatasetColumn from '../../../model/datasets/DatasetColumn';
+import { DatasetColumn } from '../../../model/datasets/DatasetColumn';
 import { DatasetRepository } from '../../../api';
 import useRequest from '../../../hooks/useRequest';
 
