@@ -1,7 +1,8 @@
 import {
     BrowserRouter,
     Routes,
-    Route
+    Route,
+    Navigate
 } from "react-router-dom";
 import { AuthPage } from '../features/auth/AuthPage';
 import { DatasetsPage, AddDatasetPage, DatasetInfoPage, DatasetTransformPage } from "../features/datasets";
@@ -29,6 +30,10 @@ export const Routing = () => {
               <Route
                 path="/datasets"
                 element={<DatasetsPage/>}
+              />
+              <Route
+                path="*"
+                element={<Navigate to="datasets" replace />}
               />
               <Route
                path="/datasets/:id"

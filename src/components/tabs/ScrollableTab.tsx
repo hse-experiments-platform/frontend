@@ -13,12 +13,19 @@ interface ScrollableTabProps {
 
 const TabsContent = styled(Tabs.Content)`
     width: 100%;
-    height: 400px;
     background-color: white;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     border: 1px solid black;
     padding: 25px 30px;
+
+    @media (min-height: 300px) {
+        height: 400px;
+    }
+
+    @media (min-height: 1000px) {
+        height: 800px;
+    }
 `
 
 export const ScrollableTab = ({tab}: ScrollableTabProps) => {

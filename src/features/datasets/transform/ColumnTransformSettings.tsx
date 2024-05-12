@@ -1,11 +1,11 @@
 import { useMemo } from "react";
-import { LabeledInput, Option, PropertyContainer } from "../../../components/descriptions";
+import { Option, buildDefaultOptions } from "../../../model";
+import { DatasetColumn } from "../../../model/datasets";
+import { LabeledInput, PropertyContainer } from "../../../components/descriptions";
 import { LabeledSelector } from "../../../components/descriptions/LabeledSelector";
-import DatasetColumn from "../../../model/datasets/DatasetColumn";
 import ScalingTechnique from "../../../model/datasets/transform/ScalingTechnique";
 import EncodingTechnique from "../../../model/datasets/transform/EncodingTechnique";
-import FillingTechnique from "../../../model/datasets/transform/FillingTechnique";
-import AggregateFunction from "../../../model/datasets/transform/AggregateFunction";
+import { FillingTechnique, fillingVariants, aggregateVariants } from "../../../model/datasets";
 import OutliersDetectingMode from "../../../model/datasets/transform/OutliersDetectingMode";
 
 interface ColumnTransformSettingsProps {
@@ -34,31 +34,17 @@ const ColumnTransformSettings = ({ column, register, watch }: ColumnTransformSet
         ScalingTechnique.Standardization,
         ScalingTechnique.Normalization,
     ]), []);
-    const fillingOptions = useMemo(() => getOptions([
-        FillingTechnique.None,
-        FillingTechnique.DeleteRow,
-        FillingTechnique.FillWithConstant,
-        FillingTechnique.FillWithTypeDefault,
-        FillingTechnique.FillWithAggregateFunction
-    ]), []);
-    const aggregateOptions = useMemo(() => getOptions([
-        AggregateFunction.Min,
-        AggregateFunction.Average,
-        AggregateFunction.Median,
-        AggregateFunction.Max,
-        AggregateFunction.MostFrequent
-    ]), []);
+    const fillingOptions = useMemo(() => buildDefaultOptions(fillingVariants), []);
+    const aggregateOptions = useMemo(() => buildDefaultOptions(aggregateVariants), []);
     const outliersDetectingOptions = useMemo(() => getOptions([
         OutliersDetectingMode.None,
         OutliersDetectingMode.MinMaxThreshold,
         OutliersDetectingMode.IQRMethod
     ]), []);
 
-    const emptiesStrategyType = watch(`columnsSettings.${column.name}.emptiesStrategy.technique`);
     const outliersDetectingMode = watch(`columnsSettings.${column.name}.outliersDetectingStrategy.mode`);
     const outliersReplacementMode = watch(`columnsSettings.${column.name}.outliersReplacementStrategy.mode`);
     const outliersReplacementAggregateFunction = watch(`columnsSettings.${column.name}.outliersReplacementStrategy.aggregateFunction`);
-    console.log(outliersReplacementAggregateFunction)
 
     return (
         <PropertyContainer>
@@ -78,30 +64,6 @@ const ColumnTransformSettings = ({ column, register, watch }: ColumnTransformSet
                     isDefaultSelected={false}
                 />)
             }
-
-            <LabeledSelector
-                label="Empties strategy"
-                register={register("emptiesStrategy.technique")}
-                options={fillingOptions}
-                isDefaultSelected={false}
-            />
-
-            {emptiesStrategyType === FillingTechnique.FillWithConstant && (
-                <LabeledInput
-                    label="Constant value"
-                    register={register("emptiesStrategy.constantValue")}
-                />
-            )}
-
-
-            {emptiesStrategyType === FillingTechnique.FillWithAggregateFunction && (
-                <LabeledSelector
-                    label="Aggregate function"
-                    register={register("emptiesStrategy.aggregateFunction")}
-                    isDefaultSelected={false}
-                    options={aggregateOptions}
-                />
-            )}
 
             <LabeledSelector
                 label="Outliers detecting strategy"

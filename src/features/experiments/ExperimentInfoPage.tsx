@@ -2,8 +2,8 @@ import { useState, useCallback } from 'react'
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { ProtectedPage } from "../../components/pages";
-import { PageTitle } from '../../components';
-import { LabeledInput, PropertyContainer, PropertyInput, PropertyName } from '../../components/descriptions';
+import { PageTitle, HeaderContainer } from '../../components';
+import { PropertyContainer, PropertyInput, PropertyName } from '../../components/descriptions';
 import ExperimentInfo from '../../model/experiments/ExperimentInfo';
 import ExperimentsRepository from '../../api/experiments/ExperimentsRepository';
 import useRequest from '../../hooks/useRequest';
@@ -17,12 +17,6 @@ const ContentContainer = styled.div`
     border: 1px solid black;
     border-radius: 10px;
     padding: 15px 25px;
-`
-
-const HeaderContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 `
 
 const ExperimentInfoPage = () => {

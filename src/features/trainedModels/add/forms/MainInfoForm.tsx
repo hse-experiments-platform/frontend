@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { PropertyContainer, Option, LabeledInput } from '../../../../components/descriptions';
+import { PropertyContainer, LabeledInput } from '../../../../components/descriptions';
+import { Option } from '../../../../model';
 import useRequest from '../../../../hooks/useRequest';
 import { DatasetRepository } from '../../../../api';
 import ProblemsRepository from '../../../../api/problems/ProblemsRepository';

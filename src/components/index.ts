@@ -8,3 +8,4 @@ export * from './ShallowTable';
 export * from './PageControl';
 export * from './StyledButton';
 export * from './LabeledImage';
+export * from './HeaderContainer';

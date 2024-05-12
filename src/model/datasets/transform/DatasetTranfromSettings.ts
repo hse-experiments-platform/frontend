@@ -1,10 +1,10 @@
-import EmptiesStrategy from "./EmptiesStrategy";
+import EmptiesStrategy from "../preprocessing/EmptiesStrategy";
 import ScalingTechnique from "./ScalingTechnique";
 import OutliersDetectingStrategy from "./OutliersDetectingStrategy";
 import OutliersReplacementStrategy from "./OutliersReplacementStrategy";
 import EncodingTechnique from "./EncodingTechnique";
-import DatasetColumn from "../DatasetColumn";
-import FillingTechnique from "./FillingTechnique";
+import { DatasetColumn } from "..";
+import { FillingTechnique } from "..";
 import OutliersDetectingMode from "./OutliersDetectingMode";
 
 interface ColumnTransformSettings {

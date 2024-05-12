@@ -1,8 +1,4 @@
-export interface Option {
-    id: string;
-    value: string;
-    disable?: boolean;
-}
+import { Option } from "../../model/Option";
 
 interface PropertySelectorProps {
     selectedId?: string;

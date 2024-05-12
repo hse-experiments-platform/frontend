@@ -1,4 +1,4 @@
-class DatasetColumn {
+export class DatasetColumn {
     name: string;
     type: string;
 
@@ -7,5 +7,3 @@ class DatasetColumn {
         this.type = type;
     }
 }
-
-export default DatasetColumn;

@@ -5,12 +5,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { ProtectedPage } from "../../components/pages";
 import { PageTitle } from '../../components';
-import { PropertyContainer, LabeledInput, Option } from '../../components/descriptions';
+import { PropertyContainer, LabeledInput } from '../../components/descriptions';
 import { LabeledSelector } from '../../components/descriptions/LabeledSelector';
 import useRequest from '../../hooks/useRequest';
 import { DatasetRepository } from '../../api';
 import TrainedModelsRepository from '../../api/trainedModels/TrainedModelsRepository';
 import { useNavigate } from 'react-router-dom';
+import { Option } from '../../model';
 import ExperimentParams from '../../model/experiments/ExperimentParams';
 import ExperimentsRepository from '../../api/experiments/ExperimentsRepository';
 

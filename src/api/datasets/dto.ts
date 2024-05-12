@@ -1,5 +1,5 @@
 import Dataset from '../../model/datasets/Dataset';
-import DatasetColumn from '../../model/datasets/DatasetColumn';
+import { DatasetColumn } from '../../model/datasets';
 import DatasetMetadata from '../../model/datasets/DatasetMetadata';
 import DatasetRow from '../../model/datasets/DatasetRow';
 

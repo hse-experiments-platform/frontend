@@ -1,6 +1,6 @@
 import * as Accordion from '@radix-ui/react-accordion';
 import { AccordionItem } from '../../../components/accordion/AccordionItem';
-import DatasetColumn from "../../../model/datasets/DatasetColumn";
+import { DatasetColumn } from "../../../model/datasets";
 import ColumnTransformSettings from "./ColumnTransformSettings";
 
 interface SettingsTabProps {

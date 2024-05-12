@@ -9,23 +9,9 @@ import { PageControl } from "../../components/PageControl";
 import TableRow from "../TableRow";
 import { StyledButton } from "../StyledButton";
 
-const ButtonContainer = styled.div`
-    display: flex;
-    gap: 11px;
-    justify-content: center;
-    color: white;
-`
-
 const StyledPlusIcon = styled(FaPlus)`
     width: 20px;
     height: 20px;
-    margin-top: 7px;
-`
-
-const StyledButtonCaption = styled.p`
-    margin-top: 7px;
-    font-family: 'Lato';
-    font-size: 17px;
 `
 
 const Panel = styled.div`
@@ -34,13 +20,9 @@ const Panel = styled.div`
     padding: 20px 0 0 0;
 `
 
-const ColoredStyledButton = styled(StyledButton)`
-    background-color: #0245D1;
-`
-
 const StyledInput = styled.input`
     width: 300px;
-    height: 25px;
+    height: 35px;
     border: 1px solid black;
     border-radius: 25px;
     font-family: 'Lato';
@@ -55,7 +37,7 @@ interface EnumerationPageProps {
     requestData: (pageNumber: number, query: string) => Promise<any[]>;
     dataTransformer: (item: any) => TableRow;
     addUrl?: string;
-    getItemUrl: (itemId: string) => string;
+    getItemUrl: (itemId: string, data?: any[]) => string;
     division?: string;
 }
 
@@ -76,12 +58,12 @@ const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestDat
     }, [setMaxPageNumber, search]);
     useRequest(fetchMaxPage);
 
-    const fetchDatasets = useCallback(async () => {
+    const fetchData = useCallback(async () => {
         const data = await requestData(pageIndex - 1, search);
         const dataRows = data.map(item => dataTransformer(item));
         setRows(dataRows);
     }, [pageIndex, setRows, search, setPageIndex, dataTransformer]);
-    useRequest(fetchDatasets);
+    useRequest(fetchData);
 
     const onSearch = (input: string) => {
         setIntermediateSearch(input);
@@ -108,12 +90,10 @@ const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestDat
                     value={intermediateSearch}
                     onChange={e => onSearch(e.target.value)}
                 />
-                {addUrl && <ColoredStyledButton onClick={() => navigate(addUrl)}>
-                    <ButtonContainer>
-                        <StyledPlusIcon/>
-                        <StyledButtonCaption>Add</StyledButtonCaption>
-                    </ButtonContainer>
-                </ColoredStyledButton>}
+                {addUrl && <StyledButton isPrimary={false} onClick={() => navigate(addUrl)}>
+                    <StyledPlusIcon/>
+                    <p>Add</p>
+                </StyledButton>}
             </Panel>
             <CustomTable
                 rows={rows}

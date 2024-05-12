@@ -6,9 +6,9 @@ import { PageTitle } from "../../../components"
 import { TabInfo, TabsControl } from "../../../components/tabs";
 import { ProtectedPage } from "../../../components/pages"
 import useRequest from "../../../hooks/useRequest";
-import DatasetColumn from "../../../model/datasets/DatasetColumn";
 import { SettingsTab } from "./SettingsTab"
 import { AnalyticsTab } from './AnalyticsTab';
+import { DatasetColumn } from '../../../model/datasets/DatasetColumn'
 import DatasetTransformSettings from '../../../model/datasets/transform/DatasetTranfromSettings';
 
 export const DatasetTransformPage = () => {
