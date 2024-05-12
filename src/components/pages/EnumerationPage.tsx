@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { ProtectedPage } from "../../components/pages";
 import styled from 'styled-components';
 import { FaPlus } from "react-icons/fa6";
-import { CustomTable, PageTitle } from '../../components';
+import { EnumerationTable, PageTitle } from '../../components';
 import useRequest from "../../hooks/useRequest";
 import { PageControl } from "../../components/PageControl";
 import TableRow from "../TableRow";
 import { StyledButton } from "../StyledButton";
+import { DropdownMenuOption } from "../DropdownMenu";
 
 const StyledPlusIcon = styled(FaPlus)`
     width: 20px;
@@ -39,10 +40,11 @@ interface EnumerationPageProps {
     addUrl?: string;
     getItemUrl: (itemId: string, data?: any[]) => string;
     division?: string;
+    options?: DropdownMenuOption[];
 }
 
 const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestData,
-    dataTransformer, addUrl, getItemUrl, division
+    dataTransformer, addUrl, getItemUrl, division, options
 }: EnumerationPageProps) => {
     const [maxPageNumber, setMaxPageNumber] = useState<number>(1);
     const [pageIndex, setPageIndex] = useState<number>(1);
@@ -93,13 +95,15 @@ const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestDat
                 {addUrl && <StyledButton isPrimary={false} onClick={() => navigate(addUrl)}>
                     <StyledPlusIcon/>
                     <p>Add</p>
-                </StyledButton>}
+                </StyledButton>
+                }
             </Panel>
-            <CustomTable
+            <EnumerationTable
                 rows={rows}
                 columnNames={columnNames}
                 division={division ?? '1fr '.repeat(columnNames.length)}
                 onClick={(id: string) => navigate(getItemUrl(id))}
+                options={options}
             />
             <PageControl
                 pageIndex={pageIndex}

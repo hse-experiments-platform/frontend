@@ -3,7 +3,7 @@ export * from './Logo';
 export * from './Routing';
 export * from './CustomSidebar';
 export * from './PageTitle';
-export * from './CustomTable';
+export * from './EnumerationTable';
 export * from './ShallowTable';
 export * from './PageControl';
 export * from './StyledButton';
