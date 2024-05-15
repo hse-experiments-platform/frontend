@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useParams } from "react-router-dom";
 import { DatasetRepository } from "../../api";
-import DatasetMetadata from "../../model/datasets/DatasetMetadata";
+import { DatasetMetadata } from "../../model/datasets";
 import useRequest from "../../hooks/useRequest";
 import ProcessDatasetPage from './ProcessDatasetPage';
 import ViewDatasetPage from './ViewDatasetPage';
@@ -13,7 +13,6 @@ export const DatasetInfoPage = () => {
     
     const fetchMetadata = useCallback(async () => {
         const response = await DatasetRepository.getDatasetMetadata(datasetId);
-        console.log(metadata);
         setMetadata(response);
     }, [datasetId, setMetadata]);
     useRequest(fetchMetadata);

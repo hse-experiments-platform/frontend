@@ -12,7 +12,7 @@ import { DatasetRepository } from '../../api';
 import TrainedModelsRepository from '../../api/trainedModels/TrainedModelsRepository';
 import { useNavigate } from 'react-router-dom';
 import { Option } from '../../model';
-import ExperimentParams from '../../model/experiments/ExperimentParams';
+import ExperimentParams from './model/ExperimentParams';
 import ExperimentsRepository from '../../api/experiments/ExperimentsRepository';
 
 const HeaderContainer = styled.div`

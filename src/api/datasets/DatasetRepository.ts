@@ -1,23 +1,16 @@
-import Dataset from '../../model/datasets/Dataset';
-import DatasetMetadata from '../../model/datasets/DatasetMetadata';
-import DatasetRow from '../../model/datasets/DatasetRow';
+import Paginated from '../../model/PaginatedModel';
+import { Dataset, DatasetMetadata, DatasetRow, DatasetColumn } from '../../model/datasets';
 import { AddDatasetResponse, GetDatasetMetadataResponse, GetDatasetsResponse, GetDatasetRows, GetDatasetSchema } from './dto';
 import { api } from "../utils";
 import { datasetsBaseUrl as baseUrl } from '../constants';
-import { GetPaginationInfo } from '../commonDto';
-import { DatasetColumn } from '../../model/datasets';
+import PaginatedResponse from '../PaginatedResponse';
+
 
 export class DatasetRepository {
-    static async getPagesCount(query: string | null = null): Promise<number> {
-        const response =  await api<GetPaginationInfo>('GET', `${baseUrl}/datasets?limit=10&query=${query}`, null);
-        const pagesNum = Math.ceil(response.pageInfo.total / 5.0);
-        return pagesNum;
-    }
-
-    static async getDatasetsList(pageIndex: number = 0, query: string | null = null, limit: number = 5): Promise<Dataset[]> {
-        const offset = pageIndex * 5;
+    static async getPaginatedDatasetsList(pageIndex: number = 0, query: string | null = null, limit: number): Promise<Paginated<Dataset>> {
+        const offset = pageIndex * limit;
         const response =  await api<GetDatasetsResponse>('GET', `${baseUrl}/datasets?limit=${limit}&offset=${offset}&query=${query}`, null);
-        return response.datasets;
+        return new Paginated(response.pageInfo.total, response.datasets)
     }
 
     static async addDataset(name: string): Promise<number> {
@@ -46,7 +39,7 @@ export class DatasetRepository {
     }
 
     static async getRowsPagesCount(datasetId: number): Promise<number> {
-        const response =  await api<GetPaginationInfo>('GET', `${baseUrl}/datasets/${datasetId}/rows?limit=8`, null);
+        const response =  await api<PaginatedResponse>('GET', `${baseUrl}/datasets/${datasetId}/rows?limit=8`, null);
         const pagesNum = Math.ceil(response.pageInfo.total / 8.0);
         return pagesNum;
     }

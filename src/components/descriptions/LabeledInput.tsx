@@ -8,6 +8,7 @@ interface LabeledInputProps {
     error?: string;
     disabled?: boolean;
     constValue?: string;
+    placeholder?: string;
 }
 
 const StyledInput = styled.input`
@@ -19,12 +20,12 @@ const StyledInput = styled.input`
     padding-left: 10px;
 `
 
-export const LabeledInput = ({label, register, error, disabled, constValue}: LabeledInputProps) => {
+export const LabeledInput = ({label, register, error, disabled, constValue, placeholder}: LabeledInputProps) => {
     return (
         <>
             <PropertyName text={label}/>
             <ValidatedProperty errorMessage={error}>
-                <StyledInput {...register} disabled={disabled} value={constValue}/>
+                <StyledInput className="styled-input" {...register} disabled={disabled} value={constValue} placeholder={placeholder}/>
             </ValidatedProperty>
         </>
     )

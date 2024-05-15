@@ -1,9 +1,9 @@
 import { GetMetricResponse } from "./dto";
 import { api } from "../utils";
 import { launchBaseUrl as baseUrl } from '../constants';
-import TrainedModelMetrics from "../../model/metrics/TrainedModelMetrics";
-import NumberMetric from "../../model/metrics/NumberMetric";
-import ImageMetric from "../../model/metrics/ImageMetric";
+import TrainedModelMetrics from "../../features/trainedModels/metrics/TrainedModelMetrics";
+import NumberMetric from "../../features/trainedModels/metrics/NumberMetric";
+import ImageMetric from "../../features/trainedModels/metrics/ImageMetric";
 
 const numberMetric: NumberMetric[] = [
     {

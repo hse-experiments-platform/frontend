@@ -1,5 +1,5 @@
-import Model from "../../model/Model";
-import ModelHyperparameter from "../../model/ModelHyperparameter";
+import Model from "../../features/trainedModels/model/Model";
+import ModelHyperparameter from "../../features/trainedModels/model/ModelHyperparameter";
 
 export interface GetModelssResponse {
     models: Model[];

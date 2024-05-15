@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { PropertyInput, PropertyContainer, PropertyName } from '../../../components/descriptions';
 import styled from 'styled-components';
-import DatasetMetadata from '../../../model/datasets/DatasetMetadata';
+import { DatasetMetadata } from '../../../model/datasets';
 import { DatasetRepository } from '../../../api';
 import { useNavigate } from 'react-router-dom';
 import { RequestContext, RequestContextType } from '../../../contexts';

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import DatasetMetadata from "../../../model/datasets/DatasetMetadata";
 import { useState, useCallback } from 'react';
-import { DatasetColumn } from '../../../model/datasets';
+import { DatasetColumn, DatasetMetadata } from '../../../model/datasets';
 import { DatasetRepository } from '../../../api';
 import { PropertyName } from '../../../components/descriptions';
 import useRequest from '../../../hooks/useRequest';

@@ -1,4 +1,4 @@
-class DatasetMetadata {
+export class DatasetMetadata {
     id: number;
     name: string;
     version: string;
@@ -19,5 +19,3 @@ class DatasetMetadata {
         return ['ConvertationError', 'WaitsConvertation'].includes(this.status);
     }
 }
-
-export default DatasetMetadata;

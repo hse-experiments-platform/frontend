@@ -1,9 +1,7 @@
-import Dataset from '../../model/datasets/Dataset';
-import { DatasetColumn } from '../../model/datasets';
-import DatasetMetadata from '../../model/datasets/DatasetMetadata';
-import DatasetRow from '../../model/datasets/DatasetRow';
+import PaginatedResponse from '../PaginatedResponse';
+import { Dataset, DatasetMetadata, DatasetRow, DatasetColumn } from '../../model/datasets';
 
-export interface GetDatasetsResponse {
+export interface GetDatasetsResponse extends PaginatedResponse {
     datasets: Dataset[];
 }
 

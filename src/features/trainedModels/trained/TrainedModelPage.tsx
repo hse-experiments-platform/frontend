@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react';
 import { useParams } from "react-router-dom";
 import useRequest from '../../../hooks/useRequest';
-import { TrainedModel } from '../../../model/trainedModels';
+import { TrainedModel } from '../model';
 import TrainedModelsRepository from '../../../api/trainedModels/TrainedModelsRepository';
 import { ProtectedPage } from '../../../components/pages';
 import { PageTitle } from '../../../components';
 import styled from 'styled-components';
 import MetricsRepository from '../../../api/metrics/MetricsRepository';
-import TrainedModelMetrics from '../../../model/metrics/TrainedModelMetrics';
+import TrainedModelMetrics from '../metrics/TrainedModelMetrics';
 import ScrollContainer from '../../../components/scroll/ScrollElements';
 import MainInfoBlock from './MainInfoBlock';
 import { AccordionItem } from '../../../components/accordion/AccordionItem';

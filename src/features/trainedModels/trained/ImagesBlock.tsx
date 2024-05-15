@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import ImageMetric from "../../../model/metrics/ImageMetric";
+import ImageMetric from "../metrics/ImageMetric";
 import { PropertyContainer } from '../../../components/descriptions';
 import { LabeledImage } from '../../../components';
 

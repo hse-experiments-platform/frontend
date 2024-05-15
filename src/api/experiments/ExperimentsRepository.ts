@@ -1,10 +1,11 @@
 import { GetExperimentsResponse } from "./dto";
 import { launchBaseUrl as baseUrl } from "../constants";
 import { api } from "../utils";
-import ExperimentInfo from "../../model/experiments/ExperimentInfo";
-import { GetPaginationInfo } from "../commonDto";
-import ExperimentParams from "../../model/experiments/ExperimentParams";
+import ExperimentInfo from "../../features/experiments/model/ExperimentInfo";
+import PaginatedResponse from '../PaginatedResponse';
+import ExperimentParams from "../../features/experiments/model/ExperimentParams";
 import { launchBaseUrl } from "../constants";
+import Paginated from "../../model/PaginatedModel";
 
 let experiments1: ExperimentInfo[] = [
     {
@@ -53,17 +54,8 @@ const experiments2: ExperimentInfo[] = [
 ]
 
 class ExperimentsRepository {
-    static async getPagesCount(query: string | null = null): Promise<number> {
-       /* const response =  await api<GetPaginationInfo>('GET',
-            `${baseUrl}/launches?limit=${10}&query=${query}&launchTypes.IncludePredict=true`,
-            null
-        );
-        const pagesNum = Math.ceil(response.pageInfo.total / 5.0);
-        return pagesNum;*/
-        return 1;
-    }
 
-    static async getList(pageIndex: number = 0, query: string | null = null, limit: number = 5): Promise<ExperimentInfo[]> {
+    static async getPaginatedList(pageIndex: number = 0, query: string | null = null, limit: number): Promise<Paginated<ExperimentInfo>> {
         const offset = pageIndex * 5;
         /*const response = await api<GetExperimentsResponse>(
             'GET',
@@ -72,8 +64,8 @@ class ExperimentsRepository {
         );
         return response.experiments;*/
         var count = parseInt(localStorage.getItem('counter') || '0');
-        console.log(count)
-        return count <= 3 ? experiments1 : experiments2;
+        const arr = count <= 3 ? experiments1 : experiments2;
+        return new Paginated(1, arr);
     }
 
     static async launchExperiment(params: ExperimentParams): Promise<void> {
