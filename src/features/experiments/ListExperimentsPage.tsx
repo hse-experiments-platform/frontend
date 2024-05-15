@@ -1,14 +1,13 @@
-import { useRef } from 'react';
 import ExperimentsRepository from "../../api/experiments/ExperimentsRepository";
 import EnumerationPage from "../../components/pages/EnumerationPage";
-import ExperimentInfo from "../../model/experiments/ExperimentInfo";
+import ExperimentInfo from "./model/ExperimentInfo";
 import TableRow from "../../components/TableRow";
 
 
 
 const ListExperimentsPage = () => {    
-    const dataRequest = async (page: number, query: string) => await ExperimentsRepository.getList(page, query);
-    const paginationRequest = async (query: string) => await ExperimentsRepository.getPagesCount(query);
+    const dataRequest = async (page: number, query: string, limit: number) =>
+        await ExperimentsRepository.getPaginatedList(page, query, limit);
 
     const dataTransformer = (experiment: ExperimentInfo): TableRow => {
         return {
@@ -29,7 +28,6 @@ const ListExperimentsPage = () => {
             pageTitle="Experiments"
             columnNames={['Name', 'Status', 'Dataset', 'Target', 'Launch Time']}
             requestData={dataRequest}
-            requestPagesAmount={paginationRequest}
             dataTransformer={dataTransformer}
             addUrl="/experiments/add"
             getItemUrl={(id: string) => `/experiments/${id}`}

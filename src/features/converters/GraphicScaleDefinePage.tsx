@@ -6,8 +6,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ProtectedPage } from "../../components/pages";
 import { LabeledInput, PropertyContainer } from '../../components/descriptions';
 import { PageTitle } from '../../components';
-import Scale from '../../model/scale/Scale';
-import ConvertersRepository from '../../api/converters/ConvertersRepository';
+import { Scale } from './model';
+import ConvertersRepository from './api/ConvertersRepository';
 import { useContext } from 'react';
 import { RequestContext, RequestContextType } from '../../contexts';
 

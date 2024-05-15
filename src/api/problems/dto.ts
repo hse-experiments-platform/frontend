@@ -1,4 +1,4 @@
-import Problem from "../../model/Problem";
+import Problem from "../../features/trainedModels/model/Problem";
 
 export interface GetProblemsResponse {
     problems: Problem[];

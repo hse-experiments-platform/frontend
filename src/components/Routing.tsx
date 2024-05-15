@@ -6,10 +6,9 @@ import {
 } from "react-router-dom";
 import { AuthPage } from '../features/auth/AuthPage';
 import { DatasetsPage, AddDatasetPage, DatasetInfoPage, TransformDatasetPage } from "../features/datasets";
-import ModelsPage from '../features/trainedModels/ModelsPage';
+import TrainedModelsPage from '../features/trainedModels/TrainedModelsPage';
 import { LogoutPage } from "../features/auth/LogoutPage";
 import AddModelPage from "../features/trainedModels/add/AddModelPage";
-import InfoPage from "../features/info/InfoPage";
 import TrainedModelPage from "../features/trainedModels/trained/TrainedModelPage";
 import ListExperimentsPage from "../features/experiments/ListExperimentsPage";
 import ListConvertersPage from "../features/converters/ListConvertersPage";
@@ -49,7 +48,7 @@ export const Routing = () => {
               />
               <Route
                 path="/trained-models"
-                element={<ModelsPage/>}
+                element={<TrainedModelsPage/>}
               />
               <Route
                 path="/trained-models/:id"
@@ -86,10 +85,6 @@ export const Routing = () => {
               <Route
                 path="/converters/graphic/result"
                 element={<ImageConvertResultPage/>}
-              />
-               <Route
-                path="/info"
-                element={<InfoPage/>}
               />
               <Route
                 path="/logout"

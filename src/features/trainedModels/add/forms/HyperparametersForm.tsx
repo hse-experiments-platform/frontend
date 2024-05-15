@@ -1,5 +1,5 @@
 import { useState, useCallback, Dispatch, SetStateAction } from 'react';
-import ModelHyperparameter from '../../../../model/ModelHyperparameter';
+import ModelHyperparameter from '../../model/ModelHyperparameter';
 import ModelsRepository from '../../../../api/models/ModelsRepository';
 import useRequest from '../../../../hooks/useRequest';
 import { LabeledInput, PropertyContainer } from '../../../../components/descriptions';

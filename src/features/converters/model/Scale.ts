@@ -1,4 +1,4 @@
-class Scale {
+export class Scale {
     minX: number;
     minY: number;
     maxX: number;
@@ -11,5 +11,3 @@ class Scale {
         this.maxY = maxY;
     }
 }
-
-export default Scale;

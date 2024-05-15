@@ -1,29 +1,26 @@
+import { useCallback } from "react";
 import TableRow from "../../components/TableRow";
 import EnumerationPage from "../../components/pages/EnumerationPage";
+import ConvertersRepository from "./api/ConvertersRepository";
+import { Converter } from "./model";
 
 const ListConvertersPage = () => {
-    const graphicConverter: TableRow = {
-        id: '1',
-        values: ['Graphic converter',
-            'Converts graphic into array of points coordinates',
-            '.png | .jpg',
-            '.csv'
-        ]
-    }
+    const dataRequest = useCallback(async (page: number, query: string, limit: number) =>
+        await ConvertersRepository.getPaginatedConverters(page, query, limit), []);
 
-    const makeFakePromise = <Type extends {}>(obj: Type) => {
-        return new Promise<Type>((resolve) => {
-            resolve(obj);
-        })
-    }
+    const dataTransformer = useCallback((converter: Converter):TableRow=> {
+        return {
+            id: converter.id.toString(),
+            values: [converter.name, converter.description, converter.input, converter.output]
+        }
+    }, [])
 
     return (
         <EnumerationPage
             pageTitle="Converters"
             columnNames={['Name', 'Description', 'Input', 'Output']}
-            requestData={(_1, _2) => makeFakePromise([graphicConverter])}
-            requestPagesAmount={_ => makeFakePromise(1)}
-            dataTransformer={item => item}
+            requestData={dataRequest}
+            dataTransformer={dataTransformer}
             getItemUrl={_ => "/converters/graphic/upload"}
             division='1fr 1.5fr 1fr 1fr'
         />

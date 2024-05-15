@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { ProtectedPage } from "../../components/pages";
 import { PageTitle, HeaderContainer } from '../../components';
 import { PropertyContainer, PropertyInput, PropertyName } from '../../components/descriptions';
-import ExperimentInfo from '../../model/experiments/ExperimentInfo';
+import ExperimentInfo from './model/ExperimentInfo';
 import ExperimentsRepository from '../../api/experiments/ExperimentsRepository';
 import useRequest from '../../hooks/useRequest';
 import FileDownloader from '../../components/FileDownloader';

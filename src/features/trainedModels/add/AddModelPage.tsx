@@ -11,7 +11,7 @@ import HyperparametersForm from './forms/HyperparametersForm';
 import ScrollContainer from '../../../components/scroll/ScrollElements';
 import { DatasetParamsForm } from './forms/DatasetParametersForm';
 import TrainedModelsRepository from '../../../api/trainedModels/TrainedModelsRepository';
-import ModelTrainParams from '../../../model/ModelTrainParams';
+import ModelTrainParams from '../model/ModelTrainParams';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 

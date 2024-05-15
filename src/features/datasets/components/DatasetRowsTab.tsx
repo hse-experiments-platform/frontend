@@ -2,8 +2,7 @@ import { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useParams } from "react-router-dom";
 import { ShallowTable, PageControl } from "../../../components";
-import DatasetRow from '../../../model/datasets/DatasetRow';
-import { DatasetColumn } from '../../../model/datasets/DatasetColumn';
+import { DatasetRow, DatasetColumn } from '../../../model/datasets';
 import { DatasetRepository } from '../../../api';
 import useRequest from '../../../hooks/useRequest';
 

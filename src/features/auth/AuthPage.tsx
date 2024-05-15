@@ -103,7 +103,6 @@ export const AuthPage = () => {
     const login = useGoogleLogin({
         onSuccess: tokenResponse => setGoogleToken(tokenResponse.access_token),
         onError: error => alert("fuck"),
-        onNonOAuthError: () => alert("non auth"),
         scope: "https://www.googleapis.com/auth/userinfo.email"
     });
 

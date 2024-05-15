@@ -3,7 +3,7 @@ import { ProtectedPage } from "../../components/pages";
 import { TabsControl } from "../../components/tabs";
 import { MetadataTab, DatasetRowsTab, SchemaTab } from "./components";
 import { TabInfo } from "../../components/tabs";
-import DatasetMetadata from "../../model/datasets/DatasetMetadata";
+import { DatasetMetadata } from "../../model/datasets/DatasetMetadata";
 
 interface ViewDatasetPageProps {
     metadata: DatasetMetadata | null;

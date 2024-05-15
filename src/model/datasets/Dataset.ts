@@ -1,4 +1,4 @@
-class Dataset {
+export class Dataset {
     id: number;
     name: string;
     version: string;
@@ -11,5 +11,3 @@ class Dataset {
         this.status = status;
     }
 }
-
-export default Dataset;

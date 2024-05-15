@@ -1,6 +1,7 @@
-import { TrainedModel } from "../../model/trainedModels";
+import { TrainedModel } from "../../features/trainedModels/model";
+import PaginatedResponse from "../PaginatedResponse";
 
-export interface GetTrainedModelsResponse {
+export interface GetTrainedModelsResponse extends PaginatedResponse {
     models: TrainedModel[];
 }
 

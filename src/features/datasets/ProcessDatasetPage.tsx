@@ -5,7 +5,7 @@ import { TabsControl } from "../../components/tabs";
 import { MetadataTab, DatasetRowsTab } from "./components";
 import { EditSchemaTab } from "./preprocessing/EditSchemaTab";
 import { TabInfo } from "../../components/tabs";
-import DatasetMetadata from "../../model/datasets/DatasetMetadata";
+import { DatasetMetadata } from "../../model/datasets/DatasetMetadata";
 import DatasetPreprocessingSettings from "../../model/datasets/preprocessing/DatasetPreprocessingSettings";
 import { DatasetRepository } from "../../api";
 import { useParams } from "react-router-dom";

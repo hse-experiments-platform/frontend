@@ -1,6 +1,6 @@
 import { trainedModelsBaseUrl as baseUrl } from "../constants";
 import { api } from "../utils";
-import Problem from "../../model/Problem";
+import Problem from "../../features/trainedModels/model/Problem";
 import { GetProblemsResponse } from "./dto";
 
 class ProblemsRepository {

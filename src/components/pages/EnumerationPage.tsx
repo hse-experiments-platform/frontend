@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useLayoutEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ProtectedPage } from "../../components/pages";
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import { PageControl } from "../../components/PageControl";
 import TableRow from "../TableRow";
 import { StyledButton } from "../StyledButton";
 import { DropdownMenuOption } from "../DropdownMenu";
+import Paginated from "../../model/PaginatedModel";
 
 const StyledPlusIcon = styled(FaPlus)`
     width: 20px;
@@ -31,40 +32,52 @@ const StyledInput = styled.input`
     padding-left: 13px;
 `
 
-interface EnumerationPageProps {
+interface EnumerationPageProps<T> {
     pageTitle: string;
     columnNames: string[];
-    requestPagesAmount: (query: string) => Promise<number>;
-    requestData: (pageNumber: number, query: string) => Promise<any[]>;
-    dataTransformer: (item: any) => TableRow;
+    requestData: (pageNumber: number, query: string, limit: number) => Promise<Paginated<T>>;
+    dataTransformer: (item: T) => TableRow;
     addUrl?: string;
     getItemUrl: (itemId: string, data?: any[]) => string;
     division?: string;
     options?: DropdownMenuOption[];
 }
 
-const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestData,
+const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
     dataTransformer, addUrl, getItemUrl, division, options
-}: EnumerationPageProps) => {
+}: EnumerationPageProps<T>) => {
+    const navigate = useNavigate();
     const [maxPageNumber, setMaxPageNumber] = useState<number>(1);
     const [pageIndex, setPageIndex] = useState<number>(1);
     const [rows, setRows] = useState<TableRow[]>([]);
-    const navigate = useNavigate();
     const [search, setSearch] = useState<string>('');
     const [intermediateSearch, setIntermediateSearch] = useState<string>('');
     const [timer, setTimer] = useState<any>(null);
+    const [tableHeight, setTableHeight] = useState<number>(500);
+    const [flag, setFlag] = useState<boolean>(false);
+    // const tableRef = useCallback((node: any) => {setTableHeight(node?.clientHeight);}, []);
+    const tableRef = useRef<any>(null);
 
-    const fetchMaxPage = useCallback(async () => {
-        const pageTotalCount = await requestPagesAmount(search);
-        setMaxPageNumber(pageTotalCount);
-    }, [setMaxPageNumber, search]);
-    useRequest(fetchMaxPage);
+    useLayoutEffect(() => {
+        setTableHeight(tableRef?.current?.offsetHeight)
+        console.log(tableRef?.current?.offsetHeight);
+        setFlag(true);
+    }, []);
 
-    const fetchData = useCallback(async () => {
-        const data = await requestData(pageIndex - 1, search);
-        const dataRows = data.map(item => dataTransformer(item));
+    const fetchData = useCallback(async () => {    
+        if (!flag)
+            return;
+
+        const tableHeightWithoutHeader = tableHeight - 55;
+        const tilesNumber = Math.floor(tableHeightWithoutHeader / 55);
+
+        const data = await requestData(pageIndex - 1, search, tilesNumber);
+        const totalPages = Math.floor(data.total / tilesNumber);        
+        const dataRows = data.list.map((item: any) => dataTransformer(item));
+
         setRows(dataRows);
-    }, [pageIndex, setRows, search, setPageIndex, dataTransformer]);
+        setMaxPageNumber(data.total % tilesNumber === 0 ? totalPages : totalPages + 1);
+    }, [pageIndex, setRows, search, dataTransformer, requestData, setMaxPageNumber, tableHeight, flag]);
     useRequest(fetchData);
 
     const onSearch = (input: string) => {
@@ -99,6 +112,7 @@ const EnumerationPage = ({pageTitle, columnNames, requestPagesAmount, requestDat
                 }
             </Panel>
             <EnumerationTable
+                tableRef={tableRef}
                 rows={rows}
                 columnNames={columnNames}
                 division={division ?? '1fr '.repeat(columnNames.length)}

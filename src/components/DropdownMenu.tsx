@@ -6,12 +6,12 @@ import ScrollContainer from "./scroll/ScrollElements";
 export interface DropdownMenuOption {
     icon: JSX.Element;
     name: string;
-    onClick: (id: string) => void;
+    onClick: (id: string, name: string) => void;
     color?: string;
 }
 
 export interface DropdownMenuProps {
-    itemId: string;
+    item: any;
     trigger: JSX.Element;
     options: DropdownMenuOption[];
 }
@@ -56,7 +56,7 @@ const AnimatedItem = ({children}: {children: JSX.Element}) => {
     )
 }
 
-export const DropdownMenu = ({trigger, options, itemId}: DropdownMenuProps) => {
+export const DropdownMenu = ({trigger, options, item}: DropdownMenuProps) => {
 
     return (
         <Dropdown.Root>
@@ -68,7 +68,7 @@ export const DropdownMenu = ({trigger, options, itemId}: DropdownMenuProps) => {
                         {options.map(option =>
                             <AnimatedItem key={option.name}>
                                 <Item
-                                    onClick={() => option.onClick(itemId)}
+                                    onClick={() => option.onClick(item.id, item.name)}
                                     color={option.color}
                                 >
                                     {option.name}

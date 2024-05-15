@@ -1,4 +1,4 @@
-import TrainedModelMetrics from "../../model/metrics/TrainedModelMetrics";
+import TrainedModelMetrics from "../../features/trainedModels/metrics/TrainedModelMetrics";
 
 export interface GetMetricResponse {
     metrics: TrainedModelMetrics;

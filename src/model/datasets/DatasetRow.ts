@@ -1,4 +1,4 @@
-class DatasetRow {
+export class DatasetRow {
     rowNumber: number;
     columns: string[];
 
@@ -7,5 +7,3 @@ class DatasetRow {
         this.columns = columns;
     }
 }
-
-export default DatasetRow;

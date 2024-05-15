@@ -1,11 +1,10 @@
 import EnumerationPage from "../../components/pages/EnumerationPage";
 import TrainedModelsRepository from "../../api/trainedModels/TrainedModelsRepository";
-import { TrainedModel } from "../../model/trainedModels";
+import { TrainedModel } from "./model";
 import TableRow from "../../components/TableRow";
 
-const ModelsPage = () => {
-    const dataRequest = async (page: number, query: string) => await TrainedModelsRepository.getTrainedModelsList(page, query);
-    const paginationRequest = async (query: string) => await TrainedModelsRepository.getPagesCount(query);
+const TrainedModelsPage = () => {
+    const dataRequest = async (page: number, query: string, limit: number) => await TrainedModelsRepository.getPaginatedTrainedModelsList(page, query, limit);
 
     const dataTransformer = (trainedModel: TrainedModel):TableRow => {
         return {
@@ -26,7 +25,6 @@ const ModelsPage = () => {
             pageTitle="Trained models"
             columnNames={['Name', 'Status', 'Model name', 'Problem', 'Dataset']}
             requestData={dataRequest}
-            requestPagesAmount={paginationRequest}
             dataTransformer={dataTransformer}
             addUrl="/trained-models/add"
             getItemUrl={(id: string) => `/trained-models/${id}`}
@@ -34,5 +32,5 @@ const ModelsPage = () => {
     );
 }
 
-export default ModelsPage;
+export default TrainedModelsPage;
 

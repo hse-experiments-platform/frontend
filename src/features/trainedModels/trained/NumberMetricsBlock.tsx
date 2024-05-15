@@ -1,5 +1,5 @@
 import { PropertyContainer, PropertyInput, PropertyName } from "../../../components/descriptions";
-import NumberMetric from "../../../model/metrics/NumberMetric";
+import NumberMetric from "../metrics/NumberMetric";
 
 interface NumberMetricsBlockProps {
     metrics: NumberMetric[];

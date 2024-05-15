@@ -1,8 +1,8 @@
 import { trainedModelsBaseUrl as baseUrl } from "../constants";
 import { api } from "../utils";
-import Model from "../../model/Model";
+import Model from "../../features/trainedModels/model/Model";
 import { GetModelHyperparameters, GetModelssResponse } from "./dto";
-import ModelHyperparameter from "../../model/ModelHyperparameter";
+import ModelHyperparameter from "../../features/trainedModels/model/ModelHyperparameter";
 
 class ModelsRepository {
     static async getModelsList(problemId?: string): Promise<Model[]> {

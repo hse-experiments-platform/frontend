@@ -1,5 +1,5 @@
 import { PropertyContainer, PropertyName, PropertyInput } from "../../../components/descriptions"
-import { TrainedModel } from "../../../model/trainedModels"
+import { TrainedModel } from "../model"
 
 interface MainInfoBlockProps {
     trainedModel: TrainedModel;
