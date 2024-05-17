@@ -1,7 +1,7 @@
 export enum ColumnDataType {
     Undefined = 'Undefined',
     Delete = 'Dropped',
-    Categorical = 'Categorical',
+    Categorical = 'Categorial',
     Int = 'Integer',
     Float = 'Float',
 }

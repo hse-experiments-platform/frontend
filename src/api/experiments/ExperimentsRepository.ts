@@ -20,8 +20,7 @@ class ExperimentsRepository {
     }
 
     static async launchExperiment(params: ExperimentParams): Promise<void> {
-        
-        //await api<void>('POST', `${launchBaseUrl}/prediction/start`, params);
+        await api<void>('POST', `${launchBaseUrl}/predict`, params);
     }
     
     static async getExperimentInfo(launchId: string): Promise<ExperimentInfo> {

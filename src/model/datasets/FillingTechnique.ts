@@ -15,6 +15,8 @@ export const fillingVariants = [
 ];
 
 export const fillingVariantsForEnum = [
+    FillingTechnique.DeleteRow,
+    FillingTechnique.FillWithConstant,
     FillingTechnique.FillWithAggregateFunction
 ];
 

@@ -7,9 +7,12 @@ import { TabInfo, TabsControl } from "../../../components/tabs";
 import { ProtectedPage } from "../../../components/pages"
 import useRequest from "../../../hooks/useRequest";
 import { SettingsTab } from "./SettingsTab"
-import { DatasetColumn } from '../../../model/datasets'
+import { DatasetColumn, mapAggregateFunctionIntoString, mapFillingTechniqueIntoString } from '../../../model/datasets'
 import DatasetTransformSettings from '../../../model/datasets/transform/DatasetTranfromSettings';
 import { canBeTransformed } from '../../../model/datasets';
+import { mapScalingTechniqueIntoString } from '../../../model/datasets/transform/ScalingTechnique';
+import { mapEncodingTechniqueIntoString } from '../../../model/datasets/transform/EncodingTechnique';
+import { mapOutliersDetectingModeIntoString } from '../../../model/datasets/transform/OutliersDetectingMode';
 
 export const TransformDatasetPage = () => {
     const { id } = useParams();
@@ -49,7 +52,35 @@ export const TransformDatasetPage = () => {
     }
 
     const submit: SubmitHandler<DatasetTransformSettings> = async (data) => {
-        console.log(data)
+        let request: any = {}
+
+        for (const column in data.columnsSettings) {
+            const settings = data.columnsSettings[column];
+            const scalingTechnique = settings.scalingTechnique;
+            const encodingTechnique = settings.encodingTechnique;
+            const outliersDetecting = settings.outliersDetectingStrategy.mode;
+            const replacementMode = settings.outliersReplacementStrategy?.mode;
+            const aggregateFunc = settings.outliersReplacementStrategy?.aggregationFunction;
+
+            request[column] = {
+                scalingTechnique: scalingTechnique ? mapScalingTechniqueIntoString(scalingTechnique) : undefined,
+                encodingTechnique: encodingTechnique ? mapEncodingTechniqueIntoString(encodingTechnique) : undefined,
+                outlinersDetectingStrategy: {
+                    mode: outliersDetecting ? mapOutliersDetectingModeIntoString(outliersDetecting) : undefined,
+                    min: settings.outliersDetectingStrategy?.min === undefined ? settings.outliersDetectingStrategy?.min : 0,
+                    max: settings.outliersDetectingStrategy?.max === undefined ? settings.outliersDetectingStrategy?.max : 0,
+                },
+                outlinersReplacementStrategy: {
+                    replacementMode: replacementMode ? mapFillingTechniqueIntoString(replacementMode) : undefined,
+                    aggregationFunction: aggregateFunc ? mapAggregateFunctionIntoString(aggregateFunc) : undefined,
+                    constantValue: settings.outliersReplacementStrategy?.constantValue
+                }
+            }
+        }
+
+        DatasetRepository.transformDataset(datasetId.toString(), request)
+            .then(() => navigate('/datasets'))
+            .catch(() => alert('Error during preprocessing dataset. Please try again later.'))
     };
 
     return (

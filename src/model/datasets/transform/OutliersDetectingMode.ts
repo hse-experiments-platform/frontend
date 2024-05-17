@@ -1,7 +1,7 @@
-enum OutliersDetectingMode {
+export enum OutliersDetectingMode {
     None = 'None',
     MinMaxThreshold = 'MinMaxThresholds',
     IQRMethod = 'IQRMethod'
 }
 
-export default OutliersDetectingMode;
+export const mapOutliersDetectingModeIntoString = (outliersDetectingMode: OutliersDetectingMode): string => `OutliersDetectingMode${outliersDetectingMode}`;

@@ -69,9 +69,9 @@ const LaunchExperimentPage = () => {
     const submit: SubmitHandler<NewExperimentParams> = async (data) => {
         await ExperimentsRepository.launchExperiment(new ExperimentParams(
             data.name, data.datasetId, data.trainedModelId
-        ));
-
-        navigate('/experiments');
+        ))
+        .then(_ => navigate('/experiments'))
+        .catch(_ => alert("Error during experiment launch. Try again later"));
     };
 
     return (

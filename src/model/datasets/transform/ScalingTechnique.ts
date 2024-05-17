@@ -1,6 +1,6 @@
-enum ScalingTechnique {
+export enum ScalingTechnique {
     Normalization = 'Normalization',
     Standardization = 'Standardization'
 }
 
-export default ScalingTechnique;
+export const mapScalingTechniqueIntoString = (scalingTechnique: ScalingTechnique): string => `ScalingTechnique${scalingTechnique}`;

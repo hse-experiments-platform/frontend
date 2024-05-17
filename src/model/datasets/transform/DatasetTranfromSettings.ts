@@ -1,16 +1,13 @@
-import EmptiesStrategy from "../preprocessing/EmptiesStrategy";
-import ScalingTechnique from "./ScalingTechnique";
+import { ScalingTechnique } from "./ScalingTechnique";
 import OutliersDetectingStrategy from "./OutliersDetectingStrategy";
 import OutliersReplacementStrategy from "./OutliersReplacementStrategy";
-import EncodingTechnique from "./EncodingTechnique";
+import { EncodingTechnique } from "./EncodingTechnique";
 import { DatasetColumn } from "..";
-import { FillingTechnique } from "..";
-import OutliersDetectingMode from "./OutliersDetectingMode";
+import { OutliersDetectingMode } from "./OutliersDetectingMode";
 
 interface ColumnTransformSettings {
     scalingTechnique?: ScalingTechnique;
     encodingTechnique?: EncodingTechnique;
-    emptiesStrategy: EmptiesStrategy;
     outliersDetectingStrategy: OutliersDetectingStrategy;
     outliersReplacementStrategy?: OutliersReplacementStrategy;
 }
@@ -31,9 +28,6 @@ class DatasetTransformSettings {
             columnsSettingsMap[column.name] = {
                 scalingTechnique: column.type !== 'enum' ? ScalingTechnique.Standardization : undefined,
                 encodingTechnique: column.type === 'enum' ? EncodingTechnique.LabelEncoding : undefined,
-                emptiesStrategy: {
-                    technique: FillingTechnique.FillWithTypeDefault
-                },
                 outliersDetectingStrategy: {
                     mode: OutliersDetectingMode.None,                   
                 }

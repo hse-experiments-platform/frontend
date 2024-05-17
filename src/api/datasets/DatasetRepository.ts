@@ -50,7 +50,7 @@ export class DatasetRepository {
     }
 
     static async getReadyDatasets(): Promise<Dataset[]> {
-        const response =  await api<GetDatasetsResponse>('GET', `${baseUrl}/datasets?limit=10&statuses.includeReady=true`, null);
+        const response =  await api<GetDatasetsResponse>('GET', `${baseUrl}/datasets?limit=100&statuses.includeReady=true`, null);
         return response.datasets;
     }
 
@@ -61,7 +61,12 @@ export class DatasetRepository {
     }
 
     static async getDatasetForModel(): Promise<Dataset[]> {
-        const datasets = await this.getReadyDatasets();
-        return datasets;//.filter(d => d.name.includes('Wine'));
+        return await this.getReadyDatasets();
+    }
+
+    static async transformDataset(datasetId: string, transformSettings: any): Promise<void> {
+        await api<void>('POST', `${baseUrl}/datasets/${datasetId}/transform`, {
+            columnPreprocessSettings: transformSettings
+        });
     }
 }

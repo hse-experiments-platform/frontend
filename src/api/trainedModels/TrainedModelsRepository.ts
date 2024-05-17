@@ -29,7 +29,7 @@ class TrainedModelsRepository {
     }
 
     static async getModelsListForProblem(): Promise<TrainedModel[]> {
-        const response = (await this.getPaginatedTrainedModelsList(0, '', 20)).list.filter(m => m.trainStatus === 'TrainStatusDone');
+        const response = (await this.getPaginatedTrainedModelsList(0, '', 100)).list.filter(m => m.trainStatus === 'LaunchStatusSuccess');
         return response;
     }
 }

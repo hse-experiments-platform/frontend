@@ -91,16 +91,20 @@ export const GraphicScaleDefinePage = () => {
 
     const submit: SubmitHandler<ScaleParams> = async (data) => {
         setIsLoading(true);
-        const result = await ConvertersRepository.runGraphicConversion(imageUrl,
-            new Scale(data.minX, data.minY, data.maxX, data.maxY));
-        setIsLoading(false);
-        navigate('/converters/graphic/result', {
-            state: {
-                initialImageUrl: imageUrl,
-                resultImageUrl: result.graphicUrl,
-                csvUrl: result.csvUrl,
-            }
-        })
+        
+        ConvertersRepository.runGraphicConversion(imageUrl,
+            new Scale(data.minX, data.minY, data.maxX, data.maxY))
+            .then(result => {
+                navigate('/converters/graphic/result', {
+                    state: {
+                        initialImageUrl: imageUrl,
+                        resultImageUrl: result.graphicUrl,
+                        csvUrl: result.csvUrl,
+                    }
+                })
+            })
+            .catch(_ => alert('Error while converting. Try again later'))
+            .finally(() => setIsLoading(false));
     };
 
     return (

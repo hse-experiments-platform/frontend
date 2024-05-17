@@ -17,3 +17,5 @@ export const aggregateVariants = [
 export const aggregateVariantsForEnum = [
     AggregateFunction.MostFrequent
 ]
+
+export const mapAggregateFunctionIntoString = (aggregateFunction: AggregateFunction): string => `AggregateFunction${aggregateFunction}`;

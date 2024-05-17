@@ -3,12 +3,12 @@ import { AggregateFunction, FillingTechnique } from "..";
 class OutliersReplacementStrategy {
     mode: FillingTechnique;
     constantValue?: any;
-    aggregateValue?: AggregateFunction;
+    aggregationFunction?: AggregateFunction;
 
-    constructor(replacementMode: FillingTechnique, constantValue?: any, aggregateValue?: AggregateFunction) {
+    constructor(replacementMode: FillingTechnique, constantValue?: any, aggregationFunction?: AggregateFunction) {
         this.mode = replacementMode;
         this.constantValue = constantValue;
-        this.aggregateValue = aggregateValue;
+        this.aggregationFunction = aggregationFunction;
     }
 }
 

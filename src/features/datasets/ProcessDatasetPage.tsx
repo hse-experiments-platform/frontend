@@ -14,7 +14,7 @@ import useRequest from "../../hooks/useRequest";
 import DatasetColumnTracker from './preprocessing/DatasetColumnTracker';
 import { ColumnDataType, mapColumnTypeIntoString } from '../../model/datasets/preprocessing';
 import { HeaderContainer, PageTitle, StyledButton } from '../../components';
-import { mapFillingTechniqueIntoString } from '../../model/datasets';
+import { mapAggregateFunctionIntoString, mapFillingTechniqueIntoString } from '../../model/datasets';
 
 interface ProcessDatasetPageProps {
     metadata: DatasetMetadata;
@@ -85,12 +85,14 @@ const ProcessDatasetPage = ({metadata}: ProcessDatasetPageProps) => {
 
         for (const column in data.columnsSettings) {
             const settings = data.columnsSettings[column];
+            const aggregateFunction = settings.emptiesStrategy.aggregateFunction;
+
             request[column] = {
                 columnType: mapColumnTypeIntoString(settings.columnType),
                 emptiesStrategy: {
                     technique: mapFillingTechniqueIntoString(settings.emptiesStrategy.technique),
                     constantValue: settings.emptiesStrategy.constantValue,
-                    aggregateFunction: settings.emptiesStrategy.aggregateFunction
+                    aggregateFunction: aggregateFunction ? mapAggregateFunctionIntoString(aggregateFunction) : undefined
                 }
             }
         }

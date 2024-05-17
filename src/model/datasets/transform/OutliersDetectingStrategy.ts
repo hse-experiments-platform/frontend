@@ -1,4 +1,4 @@
-import OutliersDetectingMode from "./OutliersDetectingMode";
+import { OutliersDetectingMode } from "./OutliersDetectingMode";
 
 class OutliersDetectingStrategy {
     mode: OutliersDetectingMode;

@@ -33,7 +33,7 @@ const PreprocessingSettingsBlock = ({register, watch}: PreprocessingSettingsBloc
                 <LabeledSelector
                     label="Empties strategy"
                     register={register("emptiesStrategy.technique")}
-                    options={selectedType === "Categorical" ? enumFillingOptions : fillingOptions}
+                    options={selectedType === "Categorial" ? enumFillingOptions : fillingOptions}
                     isDefaultSelected={false}
                 />
             )}
@@ -51,7 +51,7 @@ const PreprocessingSettingsBlock = ({register, watch}: PreprocessingSettingsBloc
                     label="Aggregate function"
                     register={register("emptiesStrategy.aggregateFunction")}
                     isDefaultSelected={false}
-                    options={selectedType === "Categorical" ? enumAggregateOptions : aggregateOptions}
+                    options={selectedType === "Categorial" ? enumAggregateOptions : aggregateOptions}
                 />
             )}
         </PropertyContainer>

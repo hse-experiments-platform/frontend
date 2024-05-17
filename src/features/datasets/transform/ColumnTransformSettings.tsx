@@ -3,10 +3,10 @@ import { Option, buildDefaultOptions } from "../../../model";
 import { DatasetColumn } from "../../../model/datasets";
 import { LabeledInput, PropertyContainer } from "../../../components/descriptions";
 import { LabeledSelector } from "../../../components/descriptions/LabeledSelector";
-import ScalingTechnique from "../../../model/datasets/transform/ScalingTechnique";
-import EncodingTechnique from "../../../model/datasets/transform/EncodingTechnique";
+import { ScalingTechnique } from "../../../model/datasets/transform/ScalingTechnique";
+import { EncodingTechnique } from "../../../model/datasets/transform/EncodingTechnique";
 import { FillingTechnique, fillingVariants, aggregateVariants } from "../../../model/datasets";
-import OutliersDetectingMode from "../../../model/datasets/transform/OutliersDetectingMode";
+import { OutliersDetectingMode } from "../../../model/datasets/transform/OutliersDetectingMode";
 
 interface ColumnTransformSettingsProps {
     column: DatasetColumn;
@@ -50,7 +50,7 @@ const ColumnTransformSettings = ({ column, register, watch }: ColumnTransformSet
         <PropertyContainer>
             <LabeledInput label="Type" disabled constValue={column.type} />
 
-            {column.type === 'enum' ? (
+            {column.type === 'categorial' ? (
                 <LabeledSelector
                     label="Encoding"
                     register={register("encodingTechnique")}
@@ -104,7 +104,7 @@ const ColumnTransformSettings = ({ column, register, watch }: ColumnTransformSet
                     {outliersReplacementMode === FillingTechnique.FillWithAggregateFunction && (
                         <LabeledSelector
                             label="Aggregate function"
-                            register={register("outliersReplacementStrategy.aggregateFunction")}
+                            register={register("outliersReplacementStrategy.aggregationFunction")}
                             defaultValue={undefined}
                             isDefaultSelected={outliersReplacementAggregateFunction === undefined}
                             options={aggregateOptions}

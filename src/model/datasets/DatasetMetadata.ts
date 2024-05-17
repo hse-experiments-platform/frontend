@@ -24,6 +24,10 @@ export const isDatasetLoaded = (datasetStatus: string): boolean => {
     return !['LoadingError', 'Initializing', 'Loading'].includes(datasetStatus);
 }
 
+export const isLoadError = (datasetStatus: string): boolean => {
+    return ['LoadingError', 'Initializing'].includes(datasetStatus);
+}
+
 export const canBeTransformed = (datasetStatus: string): boolean => {
     return datasetStatus === 'Ready';
 }

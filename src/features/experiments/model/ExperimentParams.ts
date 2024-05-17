@@ -1,27 +1,21 @@
-interface DatasetSettings {
-    datasetId: string;
-}
-
-interface ModelSettings {
-    modelId: string;
+interface LaunchInfo {
+    name: string;
+    description: string;
 }
 
 class ExperimentParams {
-    name: string;
-    description: string;
-    datasetSettings: DatasetSettings;
-    modelSettings: ModelSettings;
+    launchInfo: LaunchInfo;
+    trainedModelID: string;
+    datasetID: string;
     
 
     constructor(name: string, datasetId: string, modelId: string) {
-        this.name = name;
-        this.description = 'lala';
-        this.datasetSettings = {
-            datasetId
-        }
-        this.modelSettings = {
-            modelId
-        }
+        this.launchInfo = {
+            name: name,
+            description: ''
+        };
+        this.trainedModelID = modelId;
+        this.datasetID = datasetId;
     }
 }
 
