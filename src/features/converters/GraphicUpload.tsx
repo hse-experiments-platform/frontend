@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import * as yup from 'yup';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProtectedPage } from "../../components/pages";
+import { ValidatedInput } from '../../components/descriptions';
 
 const StyledTitle = styled.h2`
     width: 100%;
@@ -24,16 +26,6 @@ const UploadContainer = styled.div`
 const InputBlock = styled.div`
     width: 280px;
     margin: 20px auto;
-`
-
-const StyledTextInput = styled.input`
-    display: block;
-    border: 1px solid black;
-    border-radius: 10px;
-    width: 280px;
-    height: 35px;
-    background-color: #EBEBEB;
-    padding-left: 15px;
 `
 
 const ActionsContainer = styled.div`
@@ -69,8 +61,12 @@ const Text = styled.p`
 `
 
 export const GraphicUploadPage = () => {
+    const [validationError, setValidationError] = useState<string>('');
     const [imageUrl, setImageUrl] = useState<string>('');
     const navigate = useNavigate();
+    const schema = useMemo(() => yup.object().shape({
+        imageUrl: yup.string().url().required()
+    }), []);
 
 
     const onCancel = () => {
@@ -78,11 +74,17 @@ export const GraphicUploadPage = () => {
     }
 
     const onProceed = () => {
-        navigate(`/converters/graphic/define-scale`, {
-            state: {
-                imageUrl: imageUrl
-            }
-        })
+        schema.validate({ imageUrl })
+            .then(() => {
+                navigate(`/converters/graphic/define-scale`, {
+                    state: {
+                        imageUrl: imageUrl
+                    }
+                });
+            })
+            .catch((error) => {
+                setValidationError(error.message);
+            });
     }
 
     return (
@@ -93,7 +95,12 @@ export const GraphicUploadPage = () => {
                     Paste a link to an image (.png | *.jpg) that contains a graphic. Picture must contain graphic curve and coordinate axes
                 </Text>
                 <InputBlock>
-                    <StyledTextInput placeholder="Paste URL..." onChange={e => setImageUrl(e.target.value)}/>
+                    <ValidatedInput
+                        placeholder='Paste URL...'
+                        register={{onChange: (e: any) => setImageUrl(e.target.value)}}
+                        error={validationError}
+                        bigSized={true}
+                    />
                 </InputBlock>
                 <ActionsContainer>
                     <CancelButton onClick={() => onCancel()}>Cancel</CancelButton>

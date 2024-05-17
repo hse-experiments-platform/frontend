@@ -3,8 +3,6 @@ import EnumerationPage from "../../components/pages/EnumerationPage";
 import ExperimentInfo from "./model/ExperimentInfo";
 import TableRow from "../../components/TableRow";
 
-
-
 const ListExperimentsPage = () => {    
     const dataRequest = async (page: number, query: string, limit: number) =>
         await ExperimentsRepository.getPaginatedList(page, query, limit);
@@ -13,15 +11,9 @@ const ListExperimentsPage = () => {
         return {
             id: experiment.id,
             values: [experiment.name, experiment.status, experiment.datasetName,
-                experiment.target, experiment.startDateTime.toDateString()]
+                experiment.target, new Date(experiment.startDateTime).toDateString()]
         }
     }
-
-    window.addEventListener("unload", function(){
-        var count = parseInt(localStorage.getItem('counter') || '0');
-      
-        localStorage.setItem('counter', (++count).toString())
-      }, false);
 
     return (
         <EnumerationPage

@@ -1,93 +1,39 @@
-import { GetExperimentsResponse } from "./dto";
-import { launchBaseUrl as baseUrl } from "../constants";
+import { GetExperimentInfo, GetExperimentsResponse, GetPredictionLink } from "./dto";
+import { launchBaseUrl, trainedModelsBaseUrl as baseUrl } from "../constants";
 import { api } from "../utils";
 import ExperimentInfo from "../../features/experiments/model/ExperimentInfo";
-import PaginatedResponse from '../PaginatedResponse';
 import ExperimentParams from "../../features/experiments/model/ExperimentParams";
-import { launchBaseUrl } from "../constants";
 import Paginated from "../../model/PaginatedModel";
-
-let experiments1: ExperimentInfo[] = [
-    {
-        id: '1',
-        name: 'Example',
-        status: 'Ready',
-        datasetName: 'food',
-        target: 'Gender',
-        startDateTime: new Date('2024-04-23T16:24:00')
-    },
-    {
-        id: '2',
-        name: 'test',
-        status: 'Ready',
-        datasetName: 'test ds',
-        target: 'Family size',
-        startDateTime: new Date('2024-04-22T12:51:37')
-    }
-]
-
-const experiments2: ExperimentInfo[] = [
-    {
-        id: '4',
-        name: 'WinePrediction',
-        status: 'Ready',
-        datasetName: 'WinePredict',
-        target: 'quality',
-        startDateTime: new Date()
-    },
-    {
-        id: '1',
-        name: 'Example',
-        status: 'Ready',
-        datasetName: 'food',
-        target: 'Gender',
-        startDateTime: new Date('2024-04-23T16:24:00')
-    },
-    {
-        id: '2',
-        name: 'test',
-        status: 'Ready',
-        datasetName: 'test ds',
-        target: 'Family size',
-        startDateTime: new Date('2024-04-22T12:51:37')
-    }
-]
+import TrainedModelsRepository from "../trainedModels/TrainedModelsRepository";
 
 class ExperimentsRepository {
 
     static async getPaginatedList(pageIndex: number = 0, query: string | null = null, limit: number): Promise<Paginated<ExperimentInfo>> {
         const offset = pageIndex * 5;
-        /*const response = await api<GetExperimentsResponse>(
+        const response = await api<GetExperimentsResponse>(
             'GET',
-            `${baseUrl}/launches??limit=${limit}&offset=${offset}&query=${query}&launchTypes.IncludePredict=true`,
-            null
+            `${baseUrl}/trained/predictions?limit=${limit}&offset=${offset}&query=${query}`,
         );
-        return response.experiments;*/
-        var count = parseInt(localStorage.getItem('counter') || '0');
-        const arr = count <= 3 ? experiments1 : experiments2;
-        return new Paginated(1, arr);
+        return new Paginated(response.pageInfo.total,
+            response.predictions.map(p => new ExperimentInfo(p.launchID, p.name, p.status, p.datasetName, p.target, new Date(p.startDateTime)))
+        );
     }
 
     static async launchExperiment(params: ExperimentParams): Promise<void> {
-        experiments1 = [{
-            id: '3',
-            name: params.name,
-            status: 'InProgress',
-            datasetName: 'wine',
-            target: 'quality',
-            startDateTime: new Date()
-        }].concat(experiments1);
-        await new Promise(f => setTimeout(f, 800));
+        
         //await api<void>('POST', `${launchBaseUrl}/prediction/start`, params);
     }
     
-    static async getExperimentInfo(): Promise<ExperimentInfo> {
-        await new Promise(f => setTimeout(f, 300));
-        return experiments2[0];
+    static async getExperimentInfo(launchId: string): Promise<ExperimentInfo> {
+        const predticion = await api<GetExperimentInfo>('GET', `${launchBaseUrl}/predict/${launchId}`);
+        const trainedModel = await TrainedModelsRepository.getTrainedModel(parseInt(predticion.trainedModelID));
+        return new ExperimentInfo(launchId, predticion.launchInfo.name,
+            predticion.launchInfo.status, trainedModel.trainDatasetName,
+            trainedModel.targetColumn, new Date());
     }
 
-    static async getExperimentResultUrl(): Promise<string> {
-        return 'https://drive.usercontent.google.com/u/0/uc?id=1aQ_Y8ZZ_0EAJQpbkqGbxCqSzabtAnf-o&export=download';
+    static async getExperimentResultUrl(launchId: string): Promise<string> {
+        return (await api<GetPredictionLink>('GET', `${launchBaseUrl}/predict/${launchId}/download`)).downloadLink;
     }
 }
 

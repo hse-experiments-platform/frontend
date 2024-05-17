@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 interface FileDownloaderProps {
   filename: string;
-  url: string;
+  url?: string;
+  getUrl?: () => Promise<string>;
 }
 
 const StyledButton = styled.button`
@@ -16,12 +17,12 @@ const StyledButton = styled.button`
   color: white;
 `
 
-const FileDownloader: React.FC<FileDownloaderProps> = ({ filename, url }) => {
-    
-  const handleDownload = () => {
+const FileDownloader: React.FC<FileDownloaderProps> = ({ filename, url, getUrl }) => {
+  const downloadFile = (url: string, filename: string) => {
     fetch(url)
       .then(response => {
         if (response.ok) return response.blob();
+        
         throw new Error('Network response was not ok.');
       })
       .then(blob => {
@@ -35,8 +36,18 @@ const FileDownloader: React.FC<FileDownloaderProps> = ({ filename, url }) => {
         document.body.removeChild(a);
       })
       .catch(error => {
-        console.error('There was an error!', error);
+        alert('Error while downloading. Try again later');
       });
+  };
+  
+  const handleDownload = () => {
+
+    if (getUrl) {
+      getUrl().then(url => downloadFile(url, filename))
+      .catch(_ => alert('Error while downloading. Try again later'));
+    } else if (url) {
+      downloadFile(url, filename);
+    }
   };
 
   return (

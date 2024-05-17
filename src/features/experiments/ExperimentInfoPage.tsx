@@ -22,11 +22,10 @@ const ContentContainer = styled.div`
 const ExperimentInfoPage = () => {
     const { id } = useParams();
     const [experiment, setExperiment] = useState<ExperimentInfo | null>(null);
-    const url = 'https://docs.google.com/spreadsheets/d/1jFGYlAbpXrhF17_EVzXXxe9vInfZy2VRjlrw81K7lZI/export?format=csv&id=1jFGYlAbpXrhF17_EVzXXxe9vInfZy2VRjlrw81K7lZI&gid=683971698';
-
+    
     const fetchExperiment = useCallback(async () => {
-        const modelId: number = parseInt(id ?? '');
-        const response = await ExperimentsRepository.getExperimentInfo();
+        if (!id) return;
+        const response = await ExperimentsRepository.getExperimentInfo(id);
         setExperiment(response)
     }, [id, setExperiment]);
     useRequest(fetchExperiment);
@@ -35,7 +34,10 @@ const ExperimentInfoPage = () => {
         <ProtectedPage>
             <HeaderContainer>
                 <PageTitle title='Experiment'/>
-                <FileDownloader filename='Result.csv' url={url}/>
+                <FileDownloader
+                    filename='Result.csv'
+                    getUrl={async () => await ExperimentsRepository.getExperimentResultUrl(id ?? '')}
+                />
             </HeaderContainer>
             <ContentContainer>
                 <PropertyContainer>
@@ -50,9 +52,6 @@ const ExperimentInfoPage = () => {
 
                     <PropertyName text='Target'/>
                     <PropertyInput disabled={true} value={experiment?.target}/>
-
-                    <PropertyName text='Start Date time'/>
-                    <PropertyInput disabled={true} value={experiment?.startDateTime.toDateString()}/>
                 </PropertyContainer>
             </ContentContainer>
         </ProtectedPage>

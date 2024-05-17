@@ -59,6 +59,8 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
     const [layoutReady, setLayoutReady] = useState<boolean>(false);
     const [enumTableReady, setEnumTableReady] = useState<boolean>(false);
     const tableRef = useRef<any>(null);
+    console.log('enum page')
+    console.log(pageIndex, search, rows, items, maxPageNumber, tableHeight, layoutReady, enumTableReady)
 
     useLayoutEffect(() => {
         setTableHeight(tableRef?.current?.offsetHeight);
@@ -72,6 +74,7 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
         const tableHeightWithoutHeader = tableHeight - 55;
         const tilesNumber = Math.floor(tableHeightWithoutHeader / 55);
 
+        console.log('fetchData', pageTitle, pageIndex - 1, search, tilesNumber)
         const data = await requestData(pageIndex - 1, search, tilesNumber);
         const totalPages = Math.floor(data.total / tilesNumber);        
         const dataRows = data.list.map((item: any) => dataTransformer(item));
@@ -80,7 +83,7 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
         setItems(data.list);
         setMaxPageNumber(data.total % tilesNumber === 0 ? totalPages : totalPages + 1);
         setEnumTableReady(true);
-    }, [pageIndex, setRows, search, dataTransformer, requestData, setMaxPageNumber, tableHeight, layoutReady]);
+    }, [pageIndex, search, dataTransformer, requestData, tableHeight, layoutReady]);
     useRequest(fetchData);
 
     const onSearch = (input: string) => {

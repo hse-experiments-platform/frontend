@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useLocation } from "react-router-dom"
-import { PageTitle } from "../../components"
+import { PageTitle, HeaderContainer } from "../../components"
 import { ProtectedPage } from "../../components/pages";
 import FileDownloader from '../../components/FileDownloader'
 
@@ -10,16 +10,9 @@ const StyledImage = styled.img`
 `
 
 const Container = styled.div`
-    margin-top: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-`
-
-const HeaderContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 `
 
 export const ImageConvertResultPage = () => {

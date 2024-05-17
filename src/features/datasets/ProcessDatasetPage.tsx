@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
+import * as yup from 'yup';
 import { useState, useCallback, useMemo } from 'react';
 import { ProtectedPage } from "../../components/pages";
 import { TabsControl } from "../../components/tabs";
@@ -38,6 +39,18 @@ const ProcessDatasetPage = ({metadata}: ProcessDatasetPageProps) => {
         setColumns(columns => columns.map(column => column.datasetColumn.name === columnName ? {...column, active: isToActivate} : column));
         setValue(`columnsSettings.${columnName}.columnType`, isToActivate ? ColumnDataType.Undefined : ColumnDataType.Delete);
     }, [setColumns]);
+
+    // const schema: yup.ObjectSchema<DatasetPreprocessingSettings> = yup.object().shape({
+    //     columnsSettings: yup.object().
+    //     hyperparameters: yup.array().ensure().of(yup.object({
+    //         id: yup.number().integer().required(),
+    //         value: yup.string().required()
+    //     })).required(),
+    //     datasetParams: yup.object().shape({
+    //         targetColumn: yup.string().min(1, 'Target must be selected!').required('Required'),
+    //         trainTestSplit: yup.number().moreThan(0, 'Must be greater than 0').lessThan(1, 'Must be less than 1').required('Required'),
+    //     }).required(),
+    // });
 
     const { register, handleSubmit, reset, watch, setValue } = useForm<DatasetPreprocessingSettings>();
 

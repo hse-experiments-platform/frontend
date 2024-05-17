@@ -7,9 +7,10 @@ export class TrainedModel {
     trainDatasetName: string;
     problemName: string;
     launchID: number;
+    targetColumn: string;
 
     constructor(trainedModelID: string, name: string, trainStatus: string, baseModelName: string,
-        trainDatasetID: string, trainDatasetName: string, problemName: string, launchID: number) {
+        trainDatasetID: string, trainDatasetName: string, problemName: string, launchID: number, targetColumn: string) {
         this.trainedModelID = trainedModelID;
         this.name = name;
         this.trainStatus = trainStatus;
@@ -18,5 +19,6 @@ export class TrainedModel {
         this.trainDatasetName = trainDatasetName;
         this.problemName = problemName;
         this.launchID = launchID;
+        this.targetColumn = targetColumn;
     }
 }
