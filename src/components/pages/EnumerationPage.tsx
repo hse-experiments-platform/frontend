@@ -54,16 +54,17 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
     const [intermediateSearch, setIntermediateSearch] = useState<string>('');
     const [timer, setTimer] = useState<any>(null);
     const [tableHeight, setTableHeight] = useState<number>(500);
-    const [flag, setFlag] = useState<boolean>(false);
+    const [layoutReady, setLayoutReady] = useState<boolean>(false);
+    const [enumTableReady, setEnumTableReady] = useState<boolean>(false);
     const tableRef = useRef<any>(null);
 
     useLayoutEffect(() => {
         setTableHeight(tableRef?.current?.offsetHeight);
-        setFlag(true);
+        setLayoutReady(true);
     }, []);
 
     const fetchData = useCallback(async () => {    
-        if (!flag)
+        if (!layoutReady)
             return;
 
         const tableHeightWithoutHeader = tableHeight - 55;
@@ -75,7 +76,8 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
 
         setRows(dataRows);
         setMaxPageNumber(data.total % tilesNumber === 0 ? totalPages : totalPages + 1);
-    }, [pageIndex, setRows, search, dataTransformer, requestData, setMaxPageNumber, tableHeight, flag]);
+        setEnumTableReady(true);
+    }, [pageIndex, setRows, search, dataTransformer, requestData, setMaxPageNumber, tableHeight, layoutReady]);
     useRequest(fetchData);
 
     const onSearch = (input: string) => {
@@ -115,6 +117,7 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
                 columnNames={columnNames}
                 division={division ?? '1fr '.repeat(columnNames.length)}
                 onClick={(id: string) => navigate(getItemUrl(id))}
+                isReady={enumTableReady}
                 options={options}
             />
             <PageControl

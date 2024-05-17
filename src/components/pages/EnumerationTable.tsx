@@ -1,4 +1,4 @@
-import { MutableRefObject, useMemo, useCallback } from "react";
+import { useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { SlOptions } from "react-icons/sl";
 import TableRow from "../TableRow";
@@ -11,6 +11,7 @@ interface EnumerationTableProps {
     division: string;
     onClick: (id: string) => void;
     options?: DropdownMenuOption[];
+    isReady: boolean;
 }
 
 const Container = styled.div`
@@ -69,7 +70,7 @@ const EmptyStateText = styled.p`
 `
 
 
-export const EnumerationTable = ({tableRef, columnNames, rows, division, onClick, options=[]}: EnumerationTableProps) => {
+export const EnumerationTable = ({tableRef, columnNames, rows, division, onClick, isReady, options=[]}: EnumerationTableProps) => {
     const processedDivision: string = useMemo(() => `${division} 25px`, [division]);
     const optionIcon = useMemo(() => (<StyledOptionsIcon />), [])
     const getDropdown = useCallback((row: TableRow) =>
@@ -86,7 +87,7 @@ export const EnumerationTable = ({tableRef, columnNames, rows, division, onClick
                 ))}
             </HeaderDataRow>
             
-            {rows.length == 0 && (
+            {isReady && rows.length == 0 && (
                 <EmptyStateConatiner>
                     <EmptyStateText>
                         No content is loaded at that time.<br/>
