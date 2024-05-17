@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import * as Accordion from '@radix-ui/react-accordion';
 import { useNavigate } from 'react-router-dom';
 import { ProtectedPage } from "../../../components/pages";
-import { PageTitle } from "../../../components"
+import { PageTitle, HeaderContainer, StyledButton, InputsContainer, StyledForm } from "../../../components"
 import { AccordionItem } from '../../../components/accordion/AccordionItem';
 import { MainInfoForm } from './forms/MainInfoForm';
 import { DatasetParameters, MainInfo } from './MainInfoInterface';
@@ -14,22 +14,6 @@ import TrainedModelsRepository from '../../../api/trainedModels/TrainedModelsRep
 import ModelTrainParams from '../model/ModelTrainParams';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-
-const HeaderContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`
-
-const InputsContainer = styled.div`
-    width: 100%;
-    height: calc(100% - 70px);
-    background-color: white;
-    margin-top: 25px;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 15px 25px;
-`
 
 interface Parameter {
     id: number;
@@ -112,10 +96,10 @@ const AddModelPage = () => {
 
     return (
         <ProtectedPage>
-            <form onSubmit={handleSubmit(submit, error => console.log(error))}>
+            <StyledForm onSubmit={handleSubmit(submit, error => console.log(error))}>
                 <HeaderContainer>
                     <PageTitle title='Train the model'/>
-                    <button type='submit'>Submit</button>
+                    <StyledButton type='submit'>Submit</StyledButton>
                 </HeaderContainer>
                 <InputsContainer>
                     <ScrollContainer>
@@ -163,7 +147,7 @@ const AddModelPage = () => {
                     </ScrollContainer>
                     
                 </InputsContainer>
-            </form>
+            </StyledForm>
         </ProtectedPage>
     )
 }

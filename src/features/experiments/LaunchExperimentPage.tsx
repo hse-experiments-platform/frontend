@@ -14,28 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { Option } from '../../model';
 import ExperimentParams from './model/ExperimentParams';
 import ExperimentsRepository from '../../api/experiments/ExperimentsRepository';
-
-const HeaderContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-`
-
-const StyledForm = styled.form`
-    display: block;
-    height: calc(100% - 60px);
-`
-
-const InputsContainer = styled.div`
-    width: 100%;
-    height: 100%;
-    display: block;
-    background-color: white;
-    margin-top: 25px;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 15px 25px;
-`
+import { HeaderContainer, StyledButton, StyledForm, InputsContainer } from '../../components';
 
 interface NewExperimentParams {
     name: string;
@@ -100,7 +79,7 @@ const LaunchExperimentPage = () => {
             <StyledForm onSubmit={handleSubmit(submit)}>
                 <HeaderContainer>
                     <PageTitle title='Launch experiment'/>
-                    <button type='submit'>Submit</button>
+                    <StyledButton type='submit'>Submit</StyledButton>
                 </HeaderContainer>
 
                 <InputsContainer>

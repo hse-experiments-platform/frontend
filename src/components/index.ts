@@ -9,3 +9,5 @@ export * from './PageControl';
 export * from './StyledButton';
 export * from './LabeledImage';
 export * from './HeaderContainer';
+export * from './StyledForm';
+export * from './InputsContainer';
