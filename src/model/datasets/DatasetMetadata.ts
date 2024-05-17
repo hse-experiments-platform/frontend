@@ -20,6 +20,6 @@ export class DatasetMetadata {
     }
 
     isLoaded(): boolean {
-        return !['LoadingError', 'Initializing'].includes(this.status);
+        return !['LoadingError', 'Initializing', 'Loading'].includes(this.status);
     }
 }

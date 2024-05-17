@@ -19,8 +19,8 @@ const TabsContent = styled(Tabs.Content)`
     border: 1px solid black;
     padding: 25px 30px;
 
-    @media (min-height: 300px) {
-        height: 400px;
+    @media (min-height: 400px) {
+        height: 450px;
     }
 
     @media (min-height: 1000px) {

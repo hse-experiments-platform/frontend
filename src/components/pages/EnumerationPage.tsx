@@ -69,7 +69,6 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
         const tableHeightWithoutHeader = tableHeight - 55;
         const tilesNumber = Math.floor(tableHeightWithoutHeader / 55);
 
-        console.log('fetchData', pageIndex, search, tilesNumber)
         const data = await requestData(pageIndex - 1, search, tilesNumber);
         const totalPages = Math.floor(data.total / tilesNumber);        
         const dataRows = data.list.map((item: any) => dataTransformer(item));
