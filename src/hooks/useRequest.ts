@@ -1,15 +1,13 @@
 import { useContext, useEffect, useCallback } from "react";
 import { RequestContext, RequestContextType } from "../contexts";
 
-const useRequest = (request: () => Promise<void>, usePreloader: boolean = true) => {
+const useRequest = (request: () => Promise<void>) => {
     const { setError, setIsLoading } = useContext(RequestContext) as RequestContextType;
 
     const doRequest = useCallback(async () => {
-        if (usePreloader) {
-            setIsLoading(true);
-        }
+        setIsLoading(true);
         await request();
-    }, [setIsLoading, request, usePreloader])
+    }, [setIsLoading, request])
 
     useEffect(() => {
         doRequest()

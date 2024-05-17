@@ -30,7 +30,7 @@ const HyperparametersForm = ({register, resetField, watch, modelId}: Hyperparame
             })
         }
     }, [modelId, resetField]);
-    useRequest(fetchHyperparameters, false);
+    useRequest(fetchHyperparameters);
 
     return (
         <PropertyContainer>

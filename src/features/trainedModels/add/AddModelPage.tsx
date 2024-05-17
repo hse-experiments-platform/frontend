@@ -106,8 +106,8 @@ const AddModelPage = () => {
                 trainTestSplit: data.datasetParams?.trainTestSplit
             }
         ))
-
-        navigate('/trained-models');
+        .then(() =>  navigate('/trained-models'))
+        .catch(_ => alert('Error occured. Try again later.'));
     };
 
     return (

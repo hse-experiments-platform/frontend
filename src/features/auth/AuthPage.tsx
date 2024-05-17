@@ -90,19 +90,19 @@ export const AuthPage = () => {
         const requestToken = async () => {
             const response = await getToken({ google_oauth_token: googleToken});
             
-            if (response) {
+            if (response && response.token) {
                 setIsAuthorized(true);
                 localStorage.setItem('accessToken', response.token);
-                console.log(response.token);
             }
         }
     
-        requestToken();
+        requestToken()
+            .catch(() => alert("Error logging in with Google"));
     }, [googleToken, setIsAuthorized]);
 
     const login = useGoogleLogin({
         onSuccess: tokenResponse => setGoogleToken(tokenResponse.access_token),
-        onError: error => alert("fuck"),
+        onError: _ => alert("Error logging in with Google"),
         scope: "https://www.googleapis.com/auth/userinfo.email"
     });
 

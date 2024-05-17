@@ -18,4 +18,8 @@ export class DatasetMetadata {
     couldBePreprocessed(): boolean {
         return ['ConvertationError', 'WaitsConvertation'].includes(this.status);
     }
+
+    isLoaded(): boolean {
+        return !['LoadingError', 'Initializing'].includes(this.status);
+    }
 }

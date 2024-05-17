@@ -55,12 +55,10 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
     const [timer, setTimer] = useState<any>(null);
     const [tableHeight, setTableHeight] = useState<number>(500);
     const [flag, setFlag] = useState<boolean>(false);
-    // const tableRef = useCallback((node: any) => {setTableHeight(node?.clientHeight);}, []);
     const tableRef = useRef<any>(null);
 
     useLayoutEffect(() => {
-        setTableHeight(tableRef?.current?.offsetHeight)
-        console.log(tableRef?.current?.offsetHeight);
+        setTableHeight(tableRef?.current?.offsetHeight);
         setFlag(true);
     }, []);
 
@@ -71,6 +69,7 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
         const tableHeightWithoutHeader = tableHeight - 55;
         const tilesNumber = Math.floor(tableHeightWithoutHeader / 55);
 
+        console.log('fetchData', pageIndex, search, tilesNumber)
         const data = await requestData(pageIndex - 1, search, tilesNumber);
         const totalPages = Math.floor(data.total / tilesNumber);        
         const dataRows = data.list.map((item: any) => dataTransformer(item));

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProtectedPage } from "../../components/pages";
 
@@ -68,6 +69,7 @@ const Text = styled.p`
 `
 
 export const GraphicUploadPage = () => {
+    const [imageUrl, setImageUrl] = useState<string>('');
     const navigate = useNavigate();
 
 
@@ -78,7 +80,7 @@ export const GraphicUploadPage = () => {
     const onProceed = () => {
         navigate(`/converters/graphic/define-scale`, {
             state: {
-                imageUrl: 'http://tcarzverey.ru:9901/api/v1/download-shared-object/aHR0cDovLzEyNy4wLjAuMTo5MDAwL2ltYWdlcy1ob3N0aW5nL1NWLmJtcD9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUVUUjhORjJZTjNISTZBN09VNk1IJTJGMjAyNDA0MjglMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwNDI4VDIzMjYwMVomWC1BbXotRXhwaXJlcz00MzIwMCZYLUFtei1TZWN1cml0eS1Ub2tlbj1leUpoYkdjaU9pSklVelV4TWlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKaFkyTmxjM05MWlhraU9pSkZWRkk0VGtZeVdVNHpTRWsyUVRkUFZUWk5TQ0lzSW1WNGNDSTZNVGN4TkRNMk5UVTJPU3dpY0dGeVpXNTBJam9pYldsdWFXOWZkWE5sY2lKOS44MDBvd21hdmd4NVdhZXFnRnY4UHdIV2c4UzYxaW1Vem56RHIwWUdPeEZZQnV0N1h4Z05DaXBmQnpWUTh2ZEhLb3p5SGZ5Ui0yczJ5SkNtZlBKRUZaUSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmdmVyc2lvbklkPW51bGwmWC1BbXotU2lnbmF0dXJlPTVhOGZjNDg5ZGUzMzc1YzI4MDY2YmI2ZjgyY2VhMTg5MGNkM2FlYmExM2FjZmQ2YjFkZGUyN2I5YmUzNGVhMDQ=',
+                imageUrl: imageUrl
             }
         })
     }
@@ -91,7 +93,7 @@ export const GraphicUploadPage = () => {
                     Paste a link to an image (.png | *.jpg) that contains a graphic. Picture must contain graphic curve and coordinate axes
                 </Text>
                 <InputBlock>
-                    <StyledTextInput placeholder="Paste URL..." onChange={e => {}}/>
+                    <StyledTextInput placeholder="Paste URL..." onChange={e => setImageUrl(e.target.value)}/>
                 </InputBlock>
                 <ActionsContainer>
                     <CancelButton onClick={() => onCancel()}>Cancel</CancelButton>

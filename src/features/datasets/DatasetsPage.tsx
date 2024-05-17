@@ -17,7 +17,7 @@ export const DatasetsPage = () => {
     const dataRequest = useCallback(async (page: number, query: string, limit: number) =>
         await DatasetRepository.getPaginatedDatasetsList(page, query, limit), []);
 
-    const dataTransformer = useCallback((dataset: Dataset):TableRow=> {
+    const dataTransformer = useCallback((dataset: Dataset): TableRow=> {
         return {
             id: dataset.id.toString(),
             values: [dataset.name, dataset.version, dataset.status]

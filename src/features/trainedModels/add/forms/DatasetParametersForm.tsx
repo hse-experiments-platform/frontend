@@ -24,7 +24,7 @@ export const DatasetParamsForm = ({datasetId, register, watch, errors}: DatasetP
         }));
         setColumnOptions(options);
     }, [setColumnOptions]);
-    useRequest(fetchDatasetSchema, false);
+    useRequest(fetchDatasetSchema);
 
     return (
         <PropertyContainer>

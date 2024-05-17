@@ -8,11 +8,12 @@ import { TabInfo } from "../../components/tabs";
 import { DatasetMetadata } from "../../model/datasets/DatasetMetadata";
 import DatasetPreprocessingSettings from "../../model/datasets/preprocessing/DatasetPreprocessingSettings";
 import { DatasetRepository } from "../../api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useRequest from "../../hooks/useRequest";
 import DatasetColumnTracker from './preprocessing/DatasetColumnTracker';
-import { ColumnDataType } from '../../model/datasets/preprocessing';
+import { ColumnDataType, mapColumnTypeIntoString } from '../../model/datasets/preprocessing';
 import { HeaderContainer, PageTitle, StyledButton } from '../../components';
+import { mapFillingTechniqueIntoString } from '../../model/datasets';
 
 interface ProcessDatasetPageProps {
     metadata: DatasetMetadata;
@@ -22,6 +23,7 @@ const ProcessDatasetPage = ({metadata}: ProcessDatasetPageProps) => {
     const { id } = useParams();
     const datasetId = useMemo(() => parseInt(id ?? ''), [id]);
     const [columns, setColumns] = useState<DatasetColumnTracker[]>([]);
+    const navigate = useNavigate();
 
     const fetchColumns = useCallback(async () => {
         const response = await DatasetRepository.getDatasetSchema(datasetId);
@@ -66,14 +68,30 @@ const ProcessDatasetPage = ({metadata}: ProcessDatasetPageProps) => {
     [metadata, metadataTab, editSchemaTab, rowsTab]);
 
     const submit: SubmitHandler<DatasetPreprocessingSettings> = async (data) => {
-        console.log(data)
+        let request: any = {}
+
+        for (const column in data.columnsSettings) {
+            const settings = data.columnsSettings[column];
+            request[column] = {
+                columnType: mapColumnTypeIntoString(settings.columnType),
+                emptiesStrategy: {
+                    technique: mapFillingTechniqueIntoString(settings.emptiesStrategy.technique),
+                    constantValue: settings.emptiesStrategy.constantValue,
+                    aggregateFunction: settings.emptiesStrategy.aggregateFunction
+                }
+            }
+        }
+
+        DatasetRepository.changeSchema(datasetId, request)
+            .then(() => navigate('/datasets'))
+            .catch(() => alert('Error during preprocessing dataset. Please try again later.'))
     };
     
     return (
         <ProtectedPage>
              <form onSubmit={handleSubmit(submit, error => console.log(error))}>
                 <HeaderContainer>
-                    <PageTitle title='Dataset transform'/>
+                    <PageTitle title='Dataset preprocessing'/>
                     <StyledButton type='submit'>Submit</StyledButton>
                 </HeaderContainer>
             </form>

@@ -25,7 +25,7 @@ export const SchemaTab = ({metadata}: TabProps) => {
         const response = await DatasetRepository.getDatasetSchema(datasetId);
         setColumns(response);
     }, [metadata, setColumns]);
-    useRequest(fetchColumns, false);
+    useRequest(fetchColumns);
 
     return (
         <div>

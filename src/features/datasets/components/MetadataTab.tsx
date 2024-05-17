@@ -1,10 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { PropertyInput, PropertyContainer, PropertyName } from '../../../components/descriptions';
 import styled from 'styled-components';
 import { DatasetMetadata } from '../../../model/datasets';
 import { DatasetRepository } from '../../../api';
 import { useNavigate } from 'react-router-dom';
-import { RequestContext, RequestContextType } from '../../../contexts';
 
 interface MetadataTabProps {
     metadata: DatasetMetadata | null;
@@ -43,7 +42,6 @@ const SubmitButton = styled.button`
 
 const LoadingErrorVisualizer = (props: any) => {
     const navigate = useNavigate();
-    const { setError } = useContext(RequestContext) as RequestContextType;
     const [link, setLink] = useState<string>("");
     const [validationFail, setValidationFail] = useState<boolean>(false);
 
@@ -64,16 +62,18 @@ const LoadingErrorVisualizer = (props: any) => {
         }
 
         addDataset()
-            .catch(_ => setError("Request error"));
+            .catch(_ => alert("Error during dataset upload. Try again later"));
     }
 
 
     return (
         <ErrorContainer>
-            <PropertyContainer>
-                <PropertyName text={'Error message'}/>
-                <ErrorText>{props.error}</ErrorText>
-            </PropertyContainer>
+            {props.error && (
+                <PropertyContainer>
+                    <PropertyName text={'Error message'}/>
+                    <ErrorText>{props.error}</ErrorText>
+                </PropertyContainer>
+            )}
             <FixContainer>
                 <p>You can try to upload dataset once again. Paste URL into the field behind</p>
                 <PropertyContainer>
@@ -102,7 +102,7 @@ export const MetadataTab = ({metadata}: MetadataTabProps) => {
                 <PropertyInput disabled={true} value={metadata?.status}/>
             </PropertyContainer>
             {
-                metadata?.status === 'LoadingError' && <LoadingErrorVisualizer id={metadata.id} error={metadata.uploadError}/>
+                metadata && !metadata.isLoaded() && <LoadingErrorVisualizer id={metadata.id} error={metadata.uploadError}/>
             }
         </div>
     )
