@@ -18,8 +18,12 @@ export class DatasetMetadata {
     couldBePreprocessed(): boolean {
         return ['ConvertationError', 'WaitsConvertation'].includes(this.status);
     }
+}
 
-    isLoaded(): boolean {
-        return !['LoadingError', 'Initializing', 'Loading'].includes(this.status);
-    }
+export const isDatasetLoaded = (datasetStatus: string): boolean => {
+    return !['LoadingError', 'Initializing', 'Loading'].includes(datasetStatus);
+}
+
+export const canBeTransformed = (datasetStatus: string): boolean => {
+    return datasetStatus === 'Ready';
 }

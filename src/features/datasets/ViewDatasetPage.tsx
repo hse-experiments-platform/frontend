@@ -3,7 +3,7 @@ import { ProtectedPage } from "../../components/pages";
 import { TabsControl } from "../../components/tabs";
 import { MetadataTab, DatasetRowsTab, SchemaTab } from "./components";
 import { TabInfo } from "../../components/tabs";
-import { DatasetMetadata } from "../../model/datasets/DatasetMetadata";
+import { DatasetMetadata, isDatasetLoaded } from "../../model/datasets/DatasetMetadata";
 
 interface ViewDatasetPageProps {
     metadata: DatasetMetadata | null;
@@ -26,7 +26,7 @@ const ViewDatasetPage = ({metadata}: ViewDatasetPageProps) => {
             <DatasetRowsTab/>
         )
     }
-    const tabs = useMemo(() => metadata?.isLoaded()
+    const tabs = useMemo(() => metadata && isDatasetLoaded(metadata.status)
          ? [metadataTab, schemaTab, rowsTab]
          : [metadataTab],
     [metadata, metadataTab, schemaTab, rowsTab]);

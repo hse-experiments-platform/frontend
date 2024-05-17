@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { PropertyInput, PropertyContainer, PropertyName } from '../../../components/descriptions';
 import styled from 'styled-components';
-import { DatasetMetadata } from '../../../model/datasets';
+import { DatasetMetadata, isDatasetLoaded } from '../../../model/datasets';
 import { DatasetRepository } from '../../../api';
 import { useNavigate } from 'react-router-dom';
 
@@ -102,7 +102,7 @@ export const MetadataTab = ({metadata}: MetadataTabProps) => {
                 <PropertyInput disabled={true} value={metadata?.status}/>
             </PropertyContainer>
             {
-                metadata && !metadata.isLoaded() && <LoadingErrorVisualizer id={metadata.id} error={metadata.uploadError}/>
+                metadata && !isDatasetLoaded(metadata.status) && <LoadingErrorVisualizer id={metadata.id} error={metadata.uploadError}/>
             }
         </div>
     )

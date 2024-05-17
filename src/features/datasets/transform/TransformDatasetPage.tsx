@@ -1,5 +1,5 @@
 import { useMemo, useCallback, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { DatasetRepository } from '../../../api';
 import { HeaderContainer, PageTitle, StyledButton } from "../../../components"
@@ -7,30 +7,36 @@ import { TabInfo, TabsControl } from "../../../components/tabs";
 import { ProtectedPage } from "../../../components/pages"
 import useRequest from "../../../hooks/useRequest";
 import { SettingsTab } from "./SettingsTab"
-import { AnalyticsTab } from './AnalyticsTab';
-import { DatasetColumn } from '../../../model/datasets/DatasetColumn'
+import { DatasetColumn } from '../../../model/datasets'
 import DatasetTransformSettings from '../../../model/datasets/transform/DatasetTranfromSettings';
+import { canBeTransformed } from '../../../model/datasets';
 
 export const TransformDatasetPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
+    const datasetId = useMemo(() => parseInt(id ?? ''), [id]);
     const [columns, setColumns] = useState<DatasetColumn[]>([]);
+    
+    const fetchMetadata = useCallback(async () => {
+        const response = await DatasetRepository.getDatasetMetadata(datasetId);
+        
+        if (!canBeTransformed(response.status)) {
+            navigate(`/datasets/${datasetId}`);
+        }
+    }, [datasetId]);
+    useRequest(fetchMetadata);
 
     const { register, handleSubmit, reset, watch } = useForm<DatasetTransformSettings>();
 
     const fetchColumns = useCallback(async () => {
-        const datasetId: number = parseInt(id ?? '');
         const response = await DatasetRepository.getDatasetSchema(datasetId);
         setColumns(response);
 
         const defaults = DatasetTransformSettings.createDefaultSettings(response);
         reset(defaults);
-    }, [id, setColumns]);
+    }, [datasetId, setColumns]);
     useRequest(fetchColumns);
 
-    const analyticsTab: TabInfo = {
-        name: 'Analytics',
-        component: (<AnalyticsTab/>)
-    }
     const settingsTab: TabInfo = {
         name: 'Settings',
         component: (

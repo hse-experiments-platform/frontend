@@ -8,6 +8,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { getNotebookUrl } from "../../api/jupyter";
 import { RequestContext, RequestContextType } from "../../contexts";
+import { canBeTransformed, isDatasetLoaded } from "../../model/datasets";
 
 
 export const DatasetsPage = () => {
@@ -36,6 +37,29 @@ export const DatasetsPage = () => {
         .finally(() => setIsLoading(false))
     }, [])
 
+    const getOptions = useCallback((dataset: Dataset) => {
+        let options: any = [];
+
+        if (isDatasetLoaded(dataset.status)) {
+            options.push({
+                icon: <FaExternalLinkAlt />,
+                name: "Open in Jupyter",
+                onClick: () => onJupyterRequest(dataset.id.toString(), dataset.name),
+                color: "#e06e30"
+            });
+        }
+
+        if (canBeTransformed(dataset.status)) {
+            options.push({
+                icon: <SlPencil />,
+                name: "Transform",
+                onClick: () => navigate(`/datasets/${dataset.id}/transform`)
+            });
+        }
+        
+        return options;
+    }, []);
+
     return (
         <EnumerationPage<Dataset>
             pageTitle="Datasets"
@@ -44,19 +68,7 @@ export const DatasetsPage = () => {
             dataTransformer={dataTransformer}
             addUrl="/datasets/add"
             getItemUrl={(id: string) => `/datasets/${id}`}
-            options={[
-                {
-                    icon: <SlPencil />,
-                    name: "Transform",
-                    onClick: (id: string) => navigate(`/datasets/${id}/transform`)
-                },
-                {
-                    icon: <FaExternalLinkAlt />,
-                    name: "Open in Jupyter",
-                    onClick: (id: string, name: string) => onJupyterRequest(id, name),
-                    color: "#e06e30"
-                }
-            ]}
+            getOptions={getOptions}
         />
     );
 }

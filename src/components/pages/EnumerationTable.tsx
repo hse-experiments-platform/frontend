@@ -10,7 +10,7 @@ interface EnumerationTableProps {
     rows: TableRow[];
     division: string;
     onClick: (id: string) => void;
-    options?: DropdownMenuOption[];
+    options: (id: string) => DropdownMenuOption[];
     isReady: boolean;
 }
 
@@ -70,11 +70,11 @@ const EmptyStateText = styled.p`
 `
 
 
-export const EnumerationTable = ({tableRef, columnNames, rows, division, onClick, isReady, options=[]}: EnumerationTableProps) => {
+export const EnumerationTable = ({tableRef, columnNames, rows, division, onClick, isReady, options}: EnumerationTableProps) => {
     const processedDivision: string = useMemo(() => `${division} 25px`, [division]);
     const optionIcon = useMemo(() => (<StyledOptionsIcon />), [])
     const getDropdown = useCallback((row: TableRow) =>
-        <DropdownMenu trigger={optionIcon} options={options} item={{
+        <DropdownMenu trigger={optionIcon} options={options(row.id)} item={{
             id: row.id,
             name: row.values[0]
         }}/>, [options]);
@@ -100,7 +100,7 @@ export const EnumerationTable = ({tableRef, columnNames, rows, division, onClick
                     {row.values.map((value, index) => (
                         <DataCell onClick={() => onClick(row.id)} key={index}>{value}</DataCell>
                     ))}
-                    {options.length > 0 && getDropdown(row)}
+                    {options(row.id).length > 0 && getDropdown(row)}
                 </DataRow>
             ))}
         </Container>

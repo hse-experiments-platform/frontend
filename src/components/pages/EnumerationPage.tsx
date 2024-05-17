@@ -10,6 +10,7 @@ import TableRow from "../TableRow";
 import { StyledButton } from "../StyledButton";
 import { DropdownMenuOption } from "../DropdownMenu";
 import Paginated from "../../model/PaginatedModel";
+import { get } from "react-hook-form";
 
 const StyledPlusIcon = styled(FaPlus)`
     width: 20px;
@@ -40,16 +41,17 @@ interface EnumerationPageProps<T> {
     addUrl?: string;
     getItemUrl: (itemId: string, data?: any[]) => string;
     division?: string;
-    options?: DropdownMenuOption[];
+    getOptions?: (item: T) => DropdownMenuOption[];
 }
 
 const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
-    dataTransformer, addUrl, getItemUrl, division, options
+    dataTransformer, addUrl, getItemUrl, division, getOptions
 }: EnumerationPageProps<T>) => {
     const navigate = useNavigate();
     const [maxPageNumber, setMaxPageNumber] = useState<number>(1);
     const [pageIndex, setPageIndex] = useState<number>(1);
     const [rows, setRows] = useState<TableRow[]>([]);
+    const [items, setItems] = useState<T[]>([]);
     const [search, setSearch] = useState<string>('');
     const [intermediateSearch, setIntermediateSearch] = useState<string>('');
     const [timer, setTimer] = useState<any>(null);
@@ -75,6 +77,7 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
         const dataRows = data.list.map((item: any) => dataTransformer(item));
 
         setRows(dataRows);
+        setItems(data.list);
         setMaxPageNumber(data.total % tilesNumber === 0 ? totalPages : totalPages + 1);
         setEnumTableReady(true);
     }, [pageIndex, setRows, search, dataTransformer, requestData, setMaxPageNumber, tableHeight, layoutReady]);
@@ -93,6 +96,12 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
                 setPageIndex(1);
             }, 500)
         )
+    }
+
+    const internalGetOptions = (id: string) => {
+        if (!getOptions)
+            return [];
+        return getOptions!(items.find(item => (item as any).id === id) as T);
     }
 
     return (
@@ -118,7 +127,7 @@ const EnumerationPage = <T,>({pageTitle, columnNames, requestData,
                 division={division ?? '1fr '.repeat(columnNames.length)}
                 onClick={(id: string) => navigate(getItemUrl(id))}
                 isReady={enumTableReady}
-                options={options}
+                options={internalGetOptions}
             />
             <PageControl
                 pageIndex={pageIndex}
