@@ -54,7 +54,6 @@ const LaunchExperimentPage = () => {
     const { register,
         handleSubmit,
         watch,
-        resetField,
         formState: {
             errors
         },
@@ -76,7 +75,7 @@ const LaunchExperimentPage = () => {
         }));
         setDatasetOptions(options);
     }, [setDatasetOptions]);
-    useRequest(fetchDataset, false);
+    useRequest(fetchDataset);
 
     const fetchModels = useCallback(async () => {
             const response = await TrainedModelsRepository.getModelsListForProblem();
@@ -86,7 +85,7 @@ const LaunchExperimentPage = () => {
             }));
             setModelOptions(options);
     }, [setModelOptions]);
-    useRequest(fetchModels, false);
+    useRequest(fetchModels);
 
     const submit: SubmitHandler<NewExperimentParams> = async (data) => {
         await ExperimentsRepository.launchExperiment(new ExperimentParams(

@@ -24,21 +24,21 @@ export const DatasetRowsTab = () => {
         const pageTotalCount = await DatasetRepository.getRowsPagesCount(datasetId);
         setMaxPageNumber(pageTotalCount);
     }, [setMaxPageNumber, id]);
-    useRequest(fetchMaxPage, false);
+    useRequest(fetchMaxPage);
 
     const fetchRows = useCallback(async () => {
         const datasetId: number = parseInt(id ?? '');
         const response = await DatasetRepository.getDatasetRows(datasetId, pageIndex - 1);
         setRows(response);
     }, [id, setRows, pageIndex]);
-    useRequest(fetchRows, false);
+    useRequest(fetchRows);
 
     const fetchColumns = useCallback(async () => {
         const datasetId: number = parseInt(id ?? '');
         const response = await DatasetRepository.getDatasetSchema(datasetId);
         setColumns(response);
     }, [id, setColumns]);
-    useRequest(fetchColumns, false);
+    useRequest(fetchColumns);
 
     const columnNames = columns.map(c => c.name);
     const data = rows.map(r => r.columns)

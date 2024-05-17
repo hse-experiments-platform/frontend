@@ -26,7 +26,7 @@ const ViewDatasetPage = ({metadata}: ViewDatasetPageProps) => {
             <DatasetRowsTab/>
         )
     }
-    const tabs = useMemo(() => metadata?.status !== 'LoadingError'
+    const tabs = useMemo(() => metadata?.isLoaded()
          ? [metadataTab, schemaTab, rowsTab]
          : [metadataTab],
     [metadata, metadataTab, schemaTab, rowsTab]);

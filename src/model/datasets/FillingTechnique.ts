@@ -1,9 +1,9 @@
 export enum FillingTechnique {
     None = 'None',
     DeleteRow = 'DeleteRow',
-    FillWithConstant = 'FillWithConstant',
-    FillWithTypeDefault = 'FillWithTypeDefault',
-    FillWithAggregateFunction = 'FillWithAggregateFunction'
+    FillWithConstant = 'Constant',
+    FillWithTypeDefault = 'TypeDefault',
+    FillWithAggregateFunction = 'AggregateFunction'
 }
 
 export const fillingVariants = [
@@ -17,3 +17,5 @@ export const fillingVariants = [
 export const fillingVariantsForEnum = [
     FillingTechnique.FillWithAggregateFunction
 ];
+
+export const mapFillingTechniqueIntoString = (fillingTechnique: FillingTechnique): string => `FillingTechnique${fillingTechnique.toString()}`;

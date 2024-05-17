@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useParams } from "react-router-dom";
 import useRequest from '../../../hooks/useRequest';
 import { TrainedModel } from '../model';
@@ -6,7 +6,6 @@ import TrainedModelsRepository from '../../../api/trainedModels/TrainedModelsRep
 import { ProtectedPage } from '../../../components/pages';
 import { PageTitle } from '../../../components';
 import styled from 'styled-components';
-import MetricsRepository from '../../../api/metrics/MetricsRepository';
 import TrainedModelMetrics from '../metrics/TrainedModelMetrics';
 import ScrollContainer from '../../../components/scroll/ScrollElements';
 import MainInfoBlock from './MainInfoBlock';
@@ -27,21 +26,21 @@ const ContentContainer = styled.div`
 
 const TrainedModelPage = () => {
     const { id } = useParams();
+    const modelId: number = useMemo(() => parseInt(id ?? ''), [id]);
     const [trainedModel, setTrainedModel] = useState<TrainedModel | null>(null);
     const [metrics, setMetrics] = useState<TrainedModelMetrics | null>();
 
     const fetchModelInfo = useCallback(async () => {
-        const modelId: number = parseInt(id ?? '');
         const response = await TrainedModelsRepository.getTrainedModel(modelId);
         setTrainedModel(response);
-    }, [id, setTrainedModel]);
+    }, [modelId, setTrainedModel]);
     useRequest(fetchModelInfo);
 
     const fetchMetrics = useCallback(async () => {
         if (!trainedModel)
             return;
 
-        const response = await MetricsRepository.getTrainingMetricsForModel(trainedModel.launchID);
+        const response = await TrainedModelsRepository.getMetricsForTrainedModel(modelId);
         setMetrics(response);
     }, [trainedModel, setMetrics]);
     useRequest(fetchMetrics);
@@ -56,13 +55,17 @@ const TrainedModelPage = () => {
                             {trainedModel && <MainInfoBlock trainedModel={trainedModel}/>}
                         </AccordionItem>
 
-                        <AccordionItem value='test' title='Test metrics'>
-                            {metrics?.test && <NumberMetricsBlock metrics={metrics.test}/>}
-                        </AccordionItem>
+                        {trainedModel?.trainStatus !== 'LaunchStatusError' && (
+                            <>
+                                <AccordionItem value='test' title='Test metrics'>
+                                    {metrics?.test && <NumberMetricsBlock metrics={metrics.test}/>}
+                                </AccordionItem>
 
-                        <AccordionItem value='cv' title='Cross validation metrics'>
-                            {metrics?.cv && <ImagesBlock metrics={metrics.cv}/>}
-                        </AccordionItem>
+                                <AccordionItem value='cv' title='Cross validation metrics'>
+                                    {metrics?.cv && <ImagesBlock metrics={metrics.cv}/>}
+                                </AccordionItem>
+                            </>
+                        )}
                     </Accordion.Root>
                 </ScrollContainer>
             </ContentContainer>

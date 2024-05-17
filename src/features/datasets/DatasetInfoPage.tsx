@@ -17,9 +17,7 @@ export const DatasetInfoPage = () => {
     }, [datasetId, setMetadata]);
     useRequest(fetchMetadata);
 
-    if (metadata === null) {
-        return (<div>Loading...</div>)
-    } else if (metadata.couldBePreprocessed()) {
+    if (metadata?.couldBePreprocessed()) {
         return (<ProcessDatasetPage metadata={metadata}/>)
     } else {
         return (<ViewDatasetPage metadata={metadata}/>)

@@ -19,6 +19,14 @@ const MainInfoBlock = ({trainedModel}: MainInfoBlockProps) => {
 
             <PropertyName text='Dataset'/>
             <PropertyInput disabled={true} value={trainedModel.trainDatasetName}/>
+
+            {
+                trainedModel.trainStatus === 'LaunchStatusError' && (
+                <>
+                    <PropertyName text='Error'/>
+                    <PropertyInput disabled={true} value='Internal error'/>
+                </>
+            )}
         </PropertyContainer>
     )
 }

@@ -1,3 +1,8 @@
+interface LaunchInfo {
+    name: string;
+    description: string;
+}
+
 interface ModelSettings {
     modelID: string;
     hyperparameterValues: any;
@@ -10,14 +15,15 @@ interface DatasetSettings {
 }
 
 class ModelTrainParams {
-    name: string;
-    description: string;
+    launchInfo: LaunchInfo;
     modelSettings: ModelSettings;
     datasetSettings: DatasetSettings;
 
     constructor(name: string, modelSettings: ModelSettings, datasetSettings: DatasetSettings) {
-        this.name = name;
-        this.description = 'lalala';
+        this.launchInfo = {
+            name: name,
+            description: ''
+        }
         this.modelSettings = modelSettings;
         this.datasetSettings = datasetSettings;
     }

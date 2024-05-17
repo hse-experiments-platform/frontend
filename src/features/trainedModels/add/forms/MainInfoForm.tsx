@@ -31,7 +31,7 @@ export const MainInfoForm = ({ register, watch, resetField, errors }: MainInfoFo
         }));
         setDatasetOptions(options);
     }, [setDatasetOptions]);
-    useRequest(fetchDataset, false);
+    useRequest(fetchDataset);
 
     const fetchProblems = useCallback(async () => {
         const response = await ProblemsRepository.getProblemsList();
@@ -41,7 +41,7 @@ export const MainInfoForm = ({ register, watch, resetField, errors }: MainInfoFo
         }));
         setProblemOptions(options);
     }, [setProblemOptions]);
-    useRequest(fetchProblems, false);
+    useRequest(fetchProblems);
 
     const fetchModels = useCallback(async () => {
         if (problemId.length !== 0) {
@@ -53,7 +53,7 @@ export const MainInfoForm = ({ register, watch, resetField, errors }: MainInfoFo
             setModelOptions(options);
         }
     }, [setModelOptions, problemId]);
-    useRequest(fetchModels, false);
+    useRequest(fetchModels);
 
     return (
         <PropertyContainer>
