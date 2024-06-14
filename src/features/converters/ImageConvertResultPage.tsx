@@ -5,14 +5,14 @@ import { ProtectedPage } from "../../components/pages";
 import FileDownloader from '../../components/FileDownloader'
 
 const StyledImage = styled.img`
-    width: 500px;
+    width: 450px;
     height: 300px;
 `
 
 const Container = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 15px;
 `
 
 export const ImageConvertResultPage = () => {

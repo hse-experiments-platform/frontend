@@ -64,6 +64,10 @@ const TrainedModelPage = () => {
                                 <AccordionItem value='cv' title='Cross validation metrics'>
                                     {metrics?.cv && <ImagesBlock metrics={metrics.cv}/>}
                                 </AccordionItem>
+
+                                <AccordionItem value='feat' title='Feature importance'>
+                                    {metrics?.imageImportanceVisualization && <ImagesBlock metrics={metrics.imageImportanceVisualization}/>}
+                                </AccordionItem>
                             </>
                         )}
                     </Accordion.Root>

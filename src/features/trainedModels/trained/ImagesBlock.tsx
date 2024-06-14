@@ -17,7 +17,7 @@ const ImagesBlock = ({metrics}: ImagesBlockProps) => {
         <Container>
             {metrics.map(metric => (
                 <LabeledImage
-                    url={metric.url}
+                    url={metric.graphicUrl}
                     caption={metric.name}
                 />
             ))}

@@ -59,7 +59,7 @@ const LaunchExperimentPage = () => {
     const fetchModels = useCallback(async () => {
             const response = await TrainedModelsRepository.getModelsListForProblem();
             const options: Option[] = response.map(r => ({
-                id: r.launchID.toString(),
+                id: r.trainedModelID,
                 value: r.name
             }));
             setModelOptions(options);

@@ -25,11 +25,11 @@ const UploadContainer = styled.div`
 
 const InputBlock = styled.div`
     width: 280px;
-    margin: 20px auto;
+    margin: 15px auto;
 `
 
 const ActionsContainer = styled.div`
-    margin-top: 40px;
+    margin-top: 30px;
     margin-right: 20px;
     display: flex;
     justify-content: right;
@@ -55,7 +55,7 @@ const ConfirmButton = styled(OvalButton)`
 const Text = styled.p`
     display: block;
     width: 70%;
-    margin: 40px auto;
+    margin: 30px auto;
     text-align: center;
     font-size: 20px;
 `

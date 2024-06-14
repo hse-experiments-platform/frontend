@@ -5,13 +5,13 @@ class TrainedModelMetrics {
     id: number;
     test: NumberMetric[];
     cv: ImageMetric[] | null;
-    featureImportanceVisualization: ImageMetric[];
+    imageImportanceVisualization: ImageMetric[];
 
     constructor(id: number, test: NumberMetric[], cv: ImageMetric[] | null, featureImportance: ImageMetric[]) {
         this.id = id;
         this.test = test;
         this.cv = cv;
-        this.featureImportanceVisualization = featureImportance;
+        this.imageImportanceVisualization = featureImportance;
     }
 }
 

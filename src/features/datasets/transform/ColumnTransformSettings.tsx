@@ -79,7 +79,7 @@ const ColumnTransformSettings = ({ column, register, watch }: ColumnTransformSet
                         register={register("outliersDetectingStrategy.max")}
                     />
                     <LabeledInput
-                        label="Max threshold"
+                        label="Min threshold"
                         register={register("outliersDetectingStrategy.min")}
                     />
                 </>

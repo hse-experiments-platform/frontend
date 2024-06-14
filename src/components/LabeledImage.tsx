@@ -7,7 +7,7 @@ interface LabeledImageProps {
 
 const Image = styled.img`
     display: block;
-    width: 300px;
+    max-width: 350px;
     height: 250px;
     margin: auto;
 `

@@ -1,12 +1,12 @@
 class ImageMetric {
     id: number;
     name: string;
-    url: string;
+    graphicUrl: string;
 
-    constructor(id: number, name: string, url: string) {
+    constructor(id: number, name: string, graphicUrl: string) {
         this.id = id;
         this.name = name;
-        this.url = url;
+        this.graphicUrl = graphicUrl;
     }
 }
 
